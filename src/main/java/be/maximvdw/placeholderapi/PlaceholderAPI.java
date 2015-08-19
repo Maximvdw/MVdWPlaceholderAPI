@@ -30,6 +30,7 @@ public class PlaceholderAPI extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		super.onEnable();
+		Bukkit.getLogger().info("[MVdWPlaceholderAPI] Initializing ...");
 	}
 
 	/**
