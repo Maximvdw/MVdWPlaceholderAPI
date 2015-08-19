@@ -1,5 +1,7 @@
 package be.maximvdw.placeholderapi;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,6 +12,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import be.maximvdw.placeholderapi.internal.MVdWPlaceholderReplacer;
+import be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent;
 
 /**
  * MVdWPlaceholderAPI
@@ -21,11 +24,12 @@ public class PlaceholderAPI extends JavaPlugin {
 	private static MVdWPlaceholderReplacer mvdwReplacer = null;
 	/* Custom placeholders registered in the API */
 	private static Map<String, PlaceholderReplacer> customPlaceholders = new ConcurrentHashMap<String, PlaceholderReplacer>();
+	/* Placeholder change listeners */
+	private static List<PlaceholderAddedEvent> placeholderAddedHandlers = new ArrayList<PlaceholderAddedEvent>();
 
 	@Override
 	public void onEnable() {
 		super.onEnable();
-
 	}
 
 	/**
@@ -118,6 +122,9 @@ public class PlaceholderAPI extends JavaPlugin {
 				"[MVdWPlaceholderAPI] " + plugin.getName()
 						+ " added custom placeholder {"
 						+ placeholder.toLowerCase() + "}");
+		for (PlaceholderAddedEvent event : placeholderAddedHandlers) {
+			event.onPlaceholderAdded(plugin, placeholder, replacer);
+		}
 		return true; // Placeholder registered
 	}
 
@@ -147,6 +154,10 @@ public class PlaceholderAPI extends JavaPlugin {
 	public void setCustomPlaceholders(
 			Map<String, PlaceholderReplacer> customPlaceholders) {
 		PlaceholderAPI.customPlaceholders = customPlaceholders;
+	}
+
+	public void setPlaceholderListener(PlaceholderAddedEvent handler) {
+		placeholderAddedHandlers.add(handler);
 	}
 
 }
