@@ -58,6 +58,11 @@ public class PlaceholderAPI extends JavaPlugin {
 				setMVdWReplacer(replacer);
 			}
 		} else {
+			Bukkit.getLogger()
+					.warning(
+							"[MVdWPlaceholderAPI] Plugin "
+									+ plugin.getName()
+									+ " tried to register itself as an MVdW Placeholder plugin. Report this to Maximvdw!");
 			return;
 		}
 	}
