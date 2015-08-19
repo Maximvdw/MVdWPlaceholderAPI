@@ -22,6 +22,12 @@ public class PlaceholderAPI extends JavaPlugin {
 	/* Custom placeholders registered in the API */
 	private static Map<String, PlaceholderReplacer> customPlaceholders = new ConcurrentHashMap<String, PlaceholderReplacer>();
 
+	@Override
+	public void onEnable() {
+		super.onEnable();
+
+	}
+
 	/**
 	 * Register an MVdW Placeholder plugin to use to replace placeholders DO NOT
 	 * USE THIS METHOD UNLESS YOU ARE ME
@@ -119,11 +125,22 @@ public class PlaceholderAPI extends JavaPlugin {
 		return mvdwReplacer;
 	}
 
-	public void setMVdWReplacer(MVdWPlaceholderReplacer mvdwReplacer) {
+	/**
+	 * Set the MVdW Replacer DO NOT USE UNLESS YOU ARE ME
+	 * 
+	 * @param mvdwReplacer
+	 *            MVdW Placeholder replacer
+	 */
+	public static void setMVdWReplacer(MVdWPlaceholderReplacer mvdwReplacer) {
 		PlaceholderAPI.mvdwReplacer = mvdwReplacer;
 	}
 
-	public Map<String, PlaceholderReplacer> getCustomPlaceholders() {
+	/**
+	 * Get all custom placeholder replacer
+	 * 
+	 * @return Map with placeholder and placeholder replacer
+	 */
+	public static Map<String, PlaceholderReplacer> getCustomPlaceholders() {
 		return customPlaceholders;
 	}
 
