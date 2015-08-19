@@ -144,7 +144,7 @@ public class PlaceholderAPI extends JavaPlugin {
 	 * @param mvdwReplacer
 	 *            MVdW Placeholder replacer
 	 */
-	public static void setMVdWReplacer(MVdWPlaceholderReplacer mvdwReplacer) {
+	private static void setMVdWReplacer(MVdWPlaceholderReplacer mvdwReplacer) {
 		PlaceholderAPI.mvdwReplacer = mvdwReplacer;
 	}
 
