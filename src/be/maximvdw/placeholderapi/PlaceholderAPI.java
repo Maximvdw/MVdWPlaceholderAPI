@@ -1,5 +1,8 @@
 package be.maximvdw.placeholderapi;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
@@ -15,7 +18,9 @@ import be.maximvdw.placeholderapi.internal.MVdWPlaceholderReplacer;
  */
 public class PlaceholderAPI extends JavaPlugin {
 	/* MVdW plugin placeholder replacer for embedded placeholders */
-	private MVdWPlaceholderReplacer mvdwReplacer = null;
+	private static MVdWPlaceholderReplacer mvdwReplacer = null;
+	/* Custom placeholders registered in the API */
+	private static Map<String, PlaceholderReplacer> customPlaceholders = new ConcurrentHashMap<String, PlaceholderReplacer>();
 
 	/**
 	 * Register an MVdW Placeholder plugin to use to replace placeholders DO NOT
@@ -50,16 +55,20 @@ public class PlaceholderAPI extends JavaPlugin {
 	 * Replace placeholders in input
 	 * 
 	 * @param offlinePlayer
-	 *            Player to replace placeholder for
+	 *            Player to replace placeholders for
 	 * @param input
 	 *            Placeholder format {placeholder}
 	 * @return Return result with replaced placeholders
 	 */
 	public static String replacePlaceholders(OfflinePlayer offlinePlayer,
 			String input) {
-		String output = "";
+		if (mvdwReplacer == null) {
+			Bukkit.getLogger()
+					.severe("[MVdWPlaceholderAPI] Unable to replace placeholders. No MVdW Placeholder plugin found!");
+			return input;
+		}
 
-		return output;
+		return mvdwReplacer.replacePlaceholders(offlinePlayer, input);
 	}
 
 	/**
@@ -68,16 +77,41 @@ public class PlaceholderAPI extends JavaPlugin {
 	 * @return Placeholder count
 	 */
 	public static int getLoadedPlaceholderCount() {
-		int totalCount = 0;
+		if (mvdwReplacer == null) {
+			Bukkit.getLogger()
+					.severe("[MVdWPlaceholderAPI] Unable to get placeholder count. No MVdW Placeholder plugin found!");
+			return 0;
+		}
 
-		return totalCount;
+		return mvdwReplacer.getLoadedPlaceholderCount();
 	}
 
+	/**
+	 * Register a custom placeholder
+	 * 
+	 * @param plugin
+	 *            Plugin that is registering the placeholder
+	 * @param placeholder
+	 *            Placeholder to be registered WITHOUT { }
+	 * @return Returns if the placeholder is added or not
+	 */
 	public static boolean registerPlaceholder(Plugin plugin,
-			String placeholder, String description) {
+			String placeholder, PlaceholderReplacer replacer) {
 		if (plugin == null)
 			return false;
-
+		if (placeholder == null)
+			return false;
+		if (placeholder.equals(""))
+			return false;
+		if (replacer == null)
+			return false;
+		if (customPlaceholders.containsKey(placeholder.toLowerCase()))
+			return false;
+		customPlaceholders.put(placeholder.toLowerCase(), replacer);
+		Bukkit.getLogger().info(
+				"[MVdWPlaceholderAPI] " + plugin.getName()
+						+ " added custom placeholder {"
+						+ placeholder.toLowerCase() + "}");
 		return true; // Placeholder registered
 	}
 
@@ -86,7 +120,16 @@ public class PlaceholderAPI extends JavaPlugin {
 	}
 
 	public void setMVdWReplacer(MVdWPlaceholderReplacer mvdwReplacer) {
-		this.mvdwReplacer = mvdwReplacer;
+		PlaceholderAPI.mvdwReplacer = mvdwReplacer;
+	}
+
+	public Map<String, PlaceholderReplacer> getCustomPlaceholders() {
+		return customPlaceholders;
+	}
+
+	public void setCustomPlaceholders(
+			Map<String, PlaceholderReplacer> customPlaceholders) {
+		PlaceholderAPI.customPlaceholders = customPlaceholders;
 	}
 
 }
