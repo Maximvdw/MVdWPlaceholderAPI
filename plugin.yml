@@ -10,4 +10,3 @@ description: Placeholder API for MVdW Software plugins
 author: Maximvdw
 website: http://www.mvdw-software.com/
 main: be.maximvdw.placeholderapi.PlaceholderAPI
-softdepends: [Tab,ActionBar,TitleMotdAdvanced,FeatherBoard,ConditionPerms,InteractiveChat,DynamicSigns,AnimatedNames]
