@@ -10,6 +10,6 @@ import be.maximvdw.placeholderapi.PlaceholderReplacer;
  * @author Maxim Van de Wynckel
  */
 public interface PlaceholderAddedEvent {
-	public void onPlaceholderAdded(Plugin plugin, String placeholder,
+	 void onPlaceholderAdded(Plugin plugin, String placeholder,
 			PlaceholderReplacer replacer);
 }
