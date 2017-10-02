@@ -122,7 +122,7 @@ public abstract class PlaceholderReplacer<T> {
 		return this;
 	}
 
-	enum DataType {
+	public enum DataType {
 		NORMAL, BOOLEAN, UNIXTIME
 	}
 }
