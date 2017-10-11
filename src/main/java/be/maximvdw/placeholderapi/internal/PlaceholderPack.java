@@ -581,7 +581,7 @@ public abstract class PlaceholderPack {
     public static void registerPlaceHolder(PlaceholderPack placeholderPack) {
         if (placeholderPack == null) {
             StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-            SendConsole.warning("A plugin tried to register a placeholderPack without giving the placeholderPack...");
+            SendConsole.warning("A plugin tried to register a placeholder without giving the placeholder pack...");
             StackTraceElement element = stackTraceElements[stackTraceElements.length - 1];
             SendConsole.warning(element.getClassName());
             return;
