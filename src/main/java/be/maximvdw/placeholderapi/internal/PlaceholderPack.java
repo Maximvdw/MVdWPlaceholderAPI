@@ -12,6 +12,7 @@ import be.maximvdw.placeholderapi.internal.utils.bukkit.Version;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,6 +35,13 @@ import java.util.regex.Pattern;
  */
 
 public abstract class PlaceholderPack {
+    private String id = "";
+    private String actionName = "";
+    private String author = "";
+    private String version = "";
+    private boolean module = false;
+    private File jarFile = null;
+
     /**
      * PlaceholderPack list
      */
@@ -59,7 +67,7 @@ public abstract class PlaceholderPack {
     private boolean containsWildcards = false;
     private String description = "";
     private String pluginURL = "";
-    private int version = 1;
+    private int configVersion = 1;
     private static boolean ignoreProblems = false;
     private static Pattern pattern = Pattern
             .compile("\\{(.([^{}]+|[^{}])?)}",
@@ -68,7 +76,7 @@ public abstract class PlaceholderPack {
 
     public PlaceholderPack(Plugin plugin, int version) {
         this.plugin = plugin;
-        setVersion(version);
+        setConfigVersion(version);
         // Check annotations
         Class<? extends PlaceholderPack> componentClass = this.getClass().asSubclass(PlaceholderPack.class);
         // Load the module constraints
@@ -664,11 +672,11 @@ public abstract class PlaceholderPack {
                 if (placeholderPack.getPlugin().getClass()
                         .getResourceAsStream("/placeholder_" + placeholderPack.getName() + ".yml") == null) {
                     placeholderPack.storage = new YamlStorage(placeholderPack.plugin, "placeholders",
-                            "placeholder_" + placeholderPack.getName(), placeholderPack.getVersion(),
+                            "placeholder_" + placeholderPack.getName(), placeholderPack.getConfigVersion(),
                             placeholderPack.getConfigBuilder(), 1);
                 } else {
                     placeholderPack.storage = new YamlStorage(placeholderPack.plugin, "placeholders",
-                            "placeholder_" + placeholderPack.getName(), true, placeholderPack.getVersion(), 1);
+                            "placeholder_" + placeholderPack.getName(), true, placeholderPack.getConfigVersion(), 1);
                 }
                 placeholderPack.storage.loadConfig(1);
 
@@ -913,20 +921,68 @@ public abstract class PlaceholderPack {
         this.configBuilder = configBuilder;
     }
 
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
     public static boolean isIgnoreProblems() {
         return ignoreProblems;
     }
 
     public static void setIgnoreProblems(boolean ignoreProblems) {
         PlaceholderPack.ignoreProblems = ignoreProblems;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public File getJarFile() {
+        return jarFile;
+    }
+
+    public void setJarFile(File jarFile) {
+        this.jarFile = jarFile;
+    }
+
+    public boolean isModule() {
+        return module;
+    }
+
+    public void setModule(boolean module) {
+        this.module = module;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getActionName() {
+        return actionName;
+    }
+
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getConfigVersion() {
+        return configVersion;
+    }
+
+    public void setConfigVersion(int configVersion) {
+        this.configVersion = configVersion;
     }
 
     public interface PlaceholderRefreshHandler {
