@@ -54,8 +54,12 @@ public @interface ModuleConstraint {
          */
         PLUGIN_AUTHOR,
         /**
-         * QAPlugin version higher
+         * Placeholder API version higher
          */
-        QAPLUGIN_VERSION
+        PLACEHOLDERAPI_VERSION,
+        /**
+         * Depend on another module
+         */
+        MODULE
     }
 }
