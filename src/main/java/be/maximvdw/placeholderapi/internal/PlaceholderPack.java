@@ -108,6 +108,28 @@ public abstract class PlaceholderPack {
         this(null, 1);
     }
 
+
+    /**
+     * Triggers on disable
+     */
+    public void onDisable() {
+
+    }
+
+    /**
+     * Triggers on delete
+     */
+    public void onDelete() {
+
+    }
+
+    /**
+     * Triggers on enable
+     */
+    public void onEnable() {
+
+    }
+
     public static void clear() {
         placeholderPackGroups.clear();
     }
