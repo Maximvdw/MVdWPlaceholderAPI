@@ -135,6 +135,10 @@ public abstract class PlaceholderPack {
         return storage;
     }
 
+    public void setStorage(YamlStorage storage){
+        this.storage = storage;
+    }
+
     /**
      * Get plugin
      *
