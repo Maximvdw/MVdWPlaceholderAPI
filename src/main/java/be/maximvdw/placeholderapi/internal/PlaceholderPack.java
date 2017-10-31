@@ -43,11 +43,6 @@ public abstract class PlaceholderPack {
     private File jarFile = null;
 
     /**
-     * PlaceholderPack list
-     */
-    private static List<PlaceholderPack> placeholderPackGroups = new ArrayList<PlaceholderPack>();
-    private static List<PlaceholderRefreshHandler> refreshHandles = new ArrayList<PlaceholderRefreshHandler>();
-    /**
      * PlaceholderPack string
      */
     private Map<String, PlaceholderReplacer<?>> placeholders = new ConcurrentHashMap<>();
@@ -68,11 +63,6 @@ public abstract class PlaceholderPack {
     private String description = "";
     private String pluginURL = "";
     private int configVersion = 1;
-    private static boolean ignoreProblems = false;
-    private static Pattern pattern = Pattern
-            .compile("\\{(.([^{}]+|[^{}])?)}",
-                    Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-
 
     public PlaceholderPack(Plugin plugin, int version) {
         this.plugin = plugin;
@@ -130,27 +120,6 @@ public abstract class PlaceholderPack {
 
     }
 
-    public static void clear() {
-        placeholderPackGroups.clear();
-    }
-
-    public static void clearUnused() {
-        List<PlaceholderPack> placeholderPacks = new ArrayList<PlaceholderPack>(placeholderPackGroups);
-        for (PlaceholderPack placeholderPack : placeholderPacks) {
-            if (!placeholderPack.isEnabled())
-                placeholderPackGroups.remove(placeholderPack);
-        }
-    }
-
-    /**
-     * Get a list of all placeholders
-     *
-     * @return PlaceholderPack list
-     */
-    public static List<PlaceholderPack> getPlaceholders() {
-        return placeholderPackGroups;
-    }
-
     /**
      * Get config
      *
@@ -162,6 +131,10 @@ public abstract class PlaceholderPack {
         return storage.getConfig();
     }
 
+    public YamlStorage getStorage(){
+        return storage;
+    }
+
     /**
      * Get plugin
      *
@@ -171,249 +144,6 @@ public abstract class PlaceholderPack {
         return plugin;
     }
 
-    public void update() {
-        List<PlaceholderPack> placeholderPacks = new ArrayList<>(PlaceholderPack.placeholderPackGroups);
-        for (PlaceholderPack p : placeholderPacks) {
-            if (p.getName().equalsIgnoreCase(getName())) {
-                PlaceholderPack.placeholderPackGroups.remove(p);
-                PlaceholderPack.placeholderPackGroups.add(this);
-            }
-        }
-    }
-
-    public static boolean containsPlaceholders(String line) {
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.find()) {
-            return true;
-        }
-        return false;
-    }
-
-    public static TreeMap<String, String> getPlaceholders(TreeMap<String, String> existing, String raw, Player player) {
-        return getPlaceholders(existing, raw, (OfflinePlayer) player);
-    }
-
-    public static String getPlaceholderResult(String input, OfflinePlayer player) {
-        String result = input;
-        TreeMap<String, String> placeholders = PlaceholderPack.getPlaceholders(new TreeMap<String, String>(), result,
-                player);
-        for (String key : placeholders.keySet()) {
-            result = result.replaceAll(key, placeholders.get(key));
-        }
-        return result;
-    }
-
-    public static List<PlaceholderPack> getPlaceholderReplacers(String raw) {
-        List<PlaceholderPack> replacers = new ArrayList<PlaceholderPack>();
-        List<PlaceholderPack> enabledPlaceholderPacks = getEnabledPlaceholderGroups();
-        Matcher matcher = pattern.matcher(raw);
-        while (matcher.find()) {
-            String placeholder = matcher.group(0).toLowerCase();
-            boolean found = false;
-            for (PlaceholderPack ph : enabledPlaceholderPacks) {
-                boolean containsPlaceholder = ph.getPlaceholder().contains(placeholder);
-                if (ph.containsWildcards && !containsPlaceholder) {
-                    for (String placeHolderString : ph.getPlaceholder()) {
-                        String testPlaceholder = placeHolderString;
-                        if (testPlaceholder.contains("*"))
-                            testPlaceholder = testPlaceholder.substring(0, testPlaceholder.indexOf('*'));
-                        if (placeholder.startsWith(testPlaceholder.toLowerCase())) {
-                            replacers.add(ph);
-                            found = true;
-                            break;
-                        }
-                    }
-                } else {
-                    if (containsPlaceholder && !placeholder.contains("*")) {
-                        replacers.add(ph);
-                        break;
-                    }
-                }
-                if (found)
-                    break;
-            }
-        }
-
-        return replacers;
-    }
-
-    public static TreeMap<String, String> getPlaceholders(List<PlaceholderPack> cachedPlaceholderPacks, String raw,
-                                                          OfflinePlayer player) {
-        TreeMap<String, String> results = new TreeMap<String, String>();
-        Matcher matcher = pattern.matcher(raw);
-        while (matcher.find()) {
-            String placeholder = matcher.group(0).toLowerCase();
-            boolean found = false;
-            for (PlaceholderPack ph : cachedPlaceholderPacks) {
-                boolean containsPlaceholder = ph.getPlaceholder().contains(placeholder);
-                if (ph.containsWildcards && !containsPlaceholder) {
-                    for (String placeHolderString : ph.getPlaceholder()) {
-                        String testPlaceholder = placeHolderString;
-                        if (testPlaceholder.contains("*"))
-                            testPlaceholder = testPlaceholder.substring(0, testPlaceholder.indexOf('*'));
-                        if (placeholder.startsWith(testPlaceholder.toLowerCase())) {
-                            String result = "";
-                            String group = matcher.group(1);
-                            try {
-                                PlaceholderReplacer<?> replacer = ph.getPlaceholderReplacer(placeHolderString);
-                                if (replacer != null) {
-                                    if (!placeholder.contains("*")) {
-                                        if (player == null)
-                                            if (replacer.isOnline()) {
-                                                result = "";
-                                            } else {
-                                                if (!replacer.isRequiresPlayer())
-                                                    result = String.valueOf(replacer.getResult(group, player));
-                                            }
-                                        else if (player.isOnline())
-                                            result = String.valueOf(replacer.getResult(group, player.getPlayer()));
-                                        else
-                                            result = String.valueOf(replacer.getResult(group, player));
-                                    }
-                                }
-                            } catch (Exception ex) {
-                                if (!isIgnoreProblems()) {
-                                    // Error
-                                    SendConsole.severe("Error in placeholder: " + placeholder);
-                                    SendConsole.stacktrace(ex);
-                                    ph.removePlaceholder(placeHolderString);
-                                }
-                            }
-                            if (result == null)
-                                result = "";
-                            results.put("(?i)\\{" + group + "\\}", result);
-                            found = true;
-                            break;
-                        }
-                    }
-                } else {
-                    if (containsPlaceholder && !placeholder.contains("*")) {
-                        String result = "";
-                        String group = matcher.group(1);
-                        try {
-                            PlaceholderReplacer<?> replacer = ph.getPlaceholderReplacer(placeholder);
-                            if (replacer != null) {
-                                if (player == null)
-                                    if (replacer.isOnline()) {
-                                        result = "";
-                                    } else {
-                                        if (!replacer.isRequiresPlayer())
-                                            result = String.valueOf(replacer.getResult(group, player));
-                                    }
-                                else if (player.isOnline())
-                                    result = String.valueOf(replacer.getResult(group, player.getPlayer()));
-                                else
-                                    result = String.valueOf(replacer.getResult(group, player));
-                            }
-                        } catch (Throwable ex) {
-                            // Error
-                            SendConsole.severe("Error in placeholder: " + placeholder);
-                            SendConsole.stacktraceLog(ex);
-                            ph.removePlaceholder(placeholder);
-                        }
-                        if (result == null)
-                            result = "";
-                        results.put("(?i)\\{" + group + "\\}", result);
-                        break;
-                    }
-                }
-                if (found)
-                    break;
-            }
-        }
-
-        return results;
-    }
-
-    public static TreeMap<String, String> getPlaceholders(TreeMap<String, String> existing, String raw,
-                                                          OfflinePlayer player) {
-        TreeMap<String, String> results = new TreeMap<String, String>();
-        results.putAll(existing);
-        List<PlaceholderPack> enabledPlaceholderPacks = getEnabledPlaceholderGroups();
-        Matcher matcher = pattern.matcher(raw);
-        while (matcher.find()) {
-            String placeholder = matcher.group(0).toLowerCase();
-            boolean found = false;
-            for (PlaceholderPack ph : enabledPlaceholderPacks) {
-                boolean containsPlaceholder = ph.getPlaceholder().contains(placeholder);
-                if (ph.containsWildcards && !containsPlaceholder) {
-                    for (String placeHolderString : ph.getPlaceholder()) {
-                        if (!existing.containsKey(placeHolderString)) {
-                            String testPlaceholder = placeHolderString;
-                            if (testPlaceholder.contains("*"))
-                                testPlaceholder = testPlaceholder.substring(0, testPlaceholder.indexOf('*'));
-                            if (placeholder.startsWith(testPlaceholder.toLowerCase())) {
-                                String result = "";
-                                String group = matcher.group(1);
-                                try {
-                                    PlaceholderReplacer<?> replacer = ph.getPlaceholderReplacer(placeHolderString);
-                                    if (replacer != null) {
-                                        if (!placeholder.contains("*")) {
-                                            if (player == null)
-                                                if (replacer.isOnline()) {
-                                                    result = "";
-                                                } else {
-                                                    if (!replacer.isRequiresPlayer())
-                                                        result = String.valueOf(replacer.getResult(group, player));
-                                                }
-                                            else if (player.isOnline())
-                                                result = String.valueOf(replacer.getResult(group, player.getPlayer()));
-                                            else
-                                                result = String.valueOf(replacer.getResult(group, player));
-                                        }
-                                    }
-                                } catch (Exception ex) {
-                                    // Error
-                                    SendConsole.severe("Error in placeholder: " + placeholder);
-                                    SendConsole.stacktrace(ex);
-                                    ph.removePlaceholder(placeHolderString);
-                                }
-                                if (result == null)
-                                    result = "";
-                                results.put("(?i)\\{" + group + "\\}", result);
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                } else {
-                    if (containsPlaceholder && !placeholder.contains("*")) {
-                        String result = "";
-                        String group = matcher.group(1);
-                        try {
-                            PlaceholderReplacer<?> replacer = ph.getPlaceholderReplacer(placeholder);
-                            if (replacer != null) {
-                                if (player == null)
-                                    if (replacer.isOnline()) {
-                                        result = "";
-                                    } else {
-                                        if (!replacer.isRequiresPlayer())
-                                            result = String.valueOf(replacer.getResult(group, player));
-                                    }
-                                else if (player.isOnline())
-                                    result = String.valueOf(replacer.getResult(group, player.getPlayer()));
-                                else
-                                    result = String.valueOf(replacer.getResult(group, player));
-                            }
-                        } catch (Throwable ex) {
-                            // Error
-                            SendConsole.severe("Error in placeholder: " + placeholder);
-                            SendConsole.stacktrace(ex);
-                            ph.removePlaceholder(placeholder);
-                        }
-                        if (result == null)
-                            result = "";
-                        results.put("(?i)\\{" + group + "\\}", result);
-                        break;
-                    }
-                }
-                if (found)
-                    break;
-            }
-        }
-
-        return results;
-    }
 
     public PlaceholderReplacer<?> getPlaceholderReplacer(String placeholder) {
         if (placeholders.containsKey(placeholder.toLowerCase()))
@@ -586,139 +316,6 @@ public abstract class PlaceholderPack {
         return this;
     }
 
-    /**
-     * Clear unused placeholders
-     *
-     * @param usedPlaceholderPacks List of unused placeholders
-     */
-    public static void filterUsedPlaceholder(List<PlaceholderPack> usedPlaceholderPacks) {
-        List<PlaceholderPack> removingPlaceholderPacks = new ArrayList<PlaceholderPack>();
-        for (PlaceholderPack placeholderPackGroup : getEnabledPlaceholderGroups()) {
-            if (!usedPlaceholderPacks.contains(placeholderPackGroup)) {
-                removingPlaceholderPacks.add(placeholderPackGroup);
-            }
-        }
-        for (PlaceholderPack pl : removingPlaceholderPacks) {
-            placeholderPackGroups.remove(pl);
-        }
-    }
-
-    /**
-     * Register a placeholderPack
-     *
-     * @param placeholderPack Place holder
-     */
-    public static void registerPlaceHolder(PlaceholderPack placeholderPack) {
-        if (placeholderPack == null) {
-            StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-            SendConsole.warning("A plugin tried to register a placeholder without giving the placeholder pack...");
-            StackTraceElement element = stackTraceElements[stackTraceElements.length - 1];
-            SendConsole.warning(element.getClassName());
-            return;
-        }
-
-        try {
-            Plugin placeholderPlugin = null;
-            for (ModuleConstraint condition : placeholderPack.getPlaceholderConditions()) {
-                boolean passed = false;
-                switch (condition.type()) {
-                    case PLUGIN:
-                        if (PluginHook.isLoaded(condition.value())) {
-                            placeholderPlugin = PluginHook
-                                    .loadPlugin(condition.value());
-                            placeholderPack.setEnabled(true);
-                            passed = true;
-                        } else {
-                            if (placeholderPlugin == null) {
-                                placeholderPack.setEnabled(false);
-                            }
-                        }
-                        break;
-                    case PLUGIN_MAIN:
-                        if (placeholderPlugin == null)
-                            placeholderPack.setEnabled(false);
-                        else if (placeholderPlugin.getDescription().getMain()
-                                .contains(condition.value())) {
-                            placeholderPack.setEnabled(true);
-                            passed = true;
-                        } else {
-                            placeholderPack.setEnabled(false);
-                        }
-                        break;
-                    case PLUGIN_VERSION:
-                        if (placeholderPlugin == null)
-                            placeholderPack.setEnabled(false);
-                        else if (placeholderPlugin.getDescription().getVersion()
-                                .startsWith(condition.value())) {
-                            placeholderPack.setEnabled(true);
-                            passed = true;
-                        } else {
-                            placeholderPack.setEnabled(false);
-                        }
-                        break;
-                    case PLUGIN_VERSION_IS_HIGHER:
-                        if (placeholderPlugin == null)
-                            placeholderPack.setEnabled(false);
-                        else if (new Version(condition.value())
-                                .compare(new Version(placeholderPlugin.getDescription().getVersion())) >= 0) {
-                            placeholderPack.setEnabled(true);
-                            passed = true;
-                        } else {
-                            placeholderPack.setEnabled(false);
-                        }
-                        break;
-                    case PLUGIN_VERSION_IS_LOWER:
-                        if (placeholderPlugin == null)
-                            placeholderPack.setEnabled(false);
-                        else if (new Version(condition.value())
-                                .compare(new Version(placeholderPlugin.getDescription().getVersion())) == -1) {
-                            placeholderPack.setEnabled(true);
-                            passed = true;
-                        } else {
-                            placeholderPack.setEnabled(false);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                if (!passed)
-                    break;
-            }
-        } catch (Exception ex) {
-            SendConsole.stacktrace(ex);
-        }
-        if (placeholderPack.isEnabled()) {
-            // Generate config
-            placeholderPack.generateConfig();
-            if (placeholderPack.getPlugin() != null) {
-                if (placeholderPack.getPlugin().getClass()
-                        .getResourceAsStream("/placeholder_" + placeholderPack.getName() + ".yml") == null) {
-                    placeholderPack.storage = new YamlStorage(placeholderPack.plugin, "placeholders",
-                            "placeholder_" + placeholderPack.getName(), placeholderPack.getConfigVersion(),
-                            placeholderPack.getConfigBuilder(), 1);
-                } else {
-                    placeholderPack.storage = new YamlStorage(placeholderPack.plugin, "placeholders",
-                            "placeholder_" + placeholderPack.getName(), true, placeholderPack.getConfigVersion(), 1);
-                }
-                placeholderPack.storage.loadConfig(1);
-
-                if (!placeholderPack.storage.getConfig().getBoolean("enabled")) {
-                    placeholderPack.setEnabled(false);
-                }
-            }
-            try {
-                if (placeholderPack.isEnabled())
-                    placeholderPack.initialize();
-            } catch (Exception ex) {
-                SendConsole.info("An error occured while initializing placeholders code=" + placeholderPack.getName());
-                SendConsole.info("The placeholders have been disabled for use.");
-                ex.printStackTrace();
-                placeholderPack.setEnabled(false);
-            }
-        }
-        placeholderPackGroups.add(placeholderPack);
-    }
-
     public void generateConfig() {
         if (getConfigBuilder() != null)
             return;
@@ -774,39 +371,12 @@ public abstract class PlaceholderPack {
 
     public abstract void initialize();
 
-    public static int getPlaceHolderCount() {
-        int count = 0;
-        for (PlaceholderPack placeholderPack : placeholderPackGroups) {
-            count += placeholderPack.getPlaceholder().size();
-        }
-        return count;
-    }
-
     public boolean isOffline(String placeholder) {
         return (!getPlaceholderReplacer(placeholder).isOnline());
-
-    }
-
-    public static int getPlaceHolderEnabledCount() {
-        int count = 0;
-        for (PlaceholderPack placeholderPack : placeholderPackGroups) {
-            if (placeholderPack.isEnabled())
-                count += placeholderPack.getPlaceholder().size();
-        }
-        return count;
     }
 
     public String getName() {
         return name;
-    }
-
-    public static List<PlaceholderPack> getEnabledPlaceholderGroups() {
-        List<PlaceholderPack> placeholderPacks = new ArrayList<PlaceholderPack>();
-        for (PlaceholderPack pl : placeholderPackGroups) {
-            if (pl.isEnabled())
-                placeholderPacks.add(pl);
-        }
-        return placeholderPacks;
     }
 
     /**
@@ -839,58 +409,6 @@ public abstract class PlaceholderPack {
         this.enabled = enabled;
     }
 
-    public static void generateBBCodeFile() {
-        try {
-            FileWriter fw = new FileWriter(new File("placeholders.txt"), false);
-            fw.write("==========================================================\n");
-            fw.write("Placeholders list generated on " + new Date().toString() + "\n");
-            fw.write("Amount of placeholders: " + getPlaceHolderCount() + "\n");
-            fw.write("==========================================================\n");
-            fw.write("\n");
-            fw.write("\n");
-            fw.write("\n");
-            for (PlaceholderPack placeholderPack : placeholderPackGroups) {
-                fw.write("[h2]" + placeholderPack.getDescription() + "[/h2]\n");
-                if (!placeholderPack.getPluginURL().equals("")) {
-                    fw.write(placeholderPack.getPluginURL());
-                    fw.write("\n");
-                }
-                fw.write("\n");
-                fw.write("[B][U][SIZE=5]Placeholders[/SIZE][/U][/B]\n");
-                for (String placeholderString : placeholderPack.getPlaceholder()) {
-                    PlaceholderReplacer<?> replacer = placeholderPack.getPlaceholderReplacer(placeholderString);
-
-                    fw.write("[B]" + placeholderString + "[/B]\n");
-                    fw.write("[I]" + replacer.getDescription() + "[/I]\n");
-                    String returnTypeString = "";
-                    if (replacer.getReturnType().equals(String.class)) {
-                        returnTypeString = "Text";
-                    } else if (replacer.getReturnType().equals(Boolean.class)) {
-                        returnTypeString = "True/False";
-                    } else if (replacer.getReturnType().equals(Integer.class)
-                            || replacer.getReturnType().equals(Short.class)
-                            || replacer.getReturnType().equals(Double.class)
-                            || replacer.getReturnType().equals(Float.class)
-                            || replacer.getReturnType().equals(Long.class)
-                            || replacer.getReturnType().equals(BigDecimal.class)) {
-                        returnTypeString = "Number";
-                    } else {
-                        returnTypeString = "Unknown";
-                    }
-                    fw.write("Returns: " + returnTypeString);
-                    fw.write("\n");
-                    fw.write("\n");
-                }
-                fw.write("\n");
-                fw.write("\n");
-                fw.write("\n");
-            }
-            fw.close();
-        } catch (Exception ex) {
-
-        }
-    }
-
     public boolean isActionPlaceholder() {
         return actionPlaceholder;
     }
@@ -915,18 +433,6 @@ public abstract class PlaceholderPack {
         this.description = description;
     }
 
-    public static List<PlaceholderRefreshHandler> getRefreshHandles() {
-        return refreshHandles;
-    }
-
-    public static void setRefreshHandles(List<PlaceholderRefreshHandler> refreshHandles) {
-        PlaceholderPack.refreshHandles = refreshHandles;
-    }
-
-    public static void registerPlaceholderRefreshHandler(PlaceholderRefreshHandler handler) {
-        PlaceholderPack.refreshHandles.add(handler);
-    }
-
     public String getPluginURL() {
         return pluginURL;
     }
@@ -941,14 +447,6 @@ public abstract class PlaceholderPack {
 
     public void setConfigBuilder(YamlBuilder configBuilder) {
         this.configBuilder = configBuilder;
-    }
-
-    public static boolean isIgnoreProblems() {
-        return ignoreProblems;
-    }
-
-    public static void setIgnoreProblems(boolean ignoreProblems) {
-        PlaceholderPack.ignoreProblems = ignoreProblems;
     }
 
     public String getVersion() {
@@ -1006,9 +504,4 @@ public abstract class PlaceholderPack {
     public void setConfigVersion(int configVersion) {
         this.configVersion = configVersion;
     }
-
-    public interface PlaceholderRefreshHandler {
-        void refreshPlaceholders();
-    }
-
 }
