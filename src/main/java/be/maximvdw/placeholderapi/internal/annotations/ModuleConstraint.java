@@ -32,34 +32,61 @@ public @interface ModuleConstraint {
         /**
          * Make sure this plugin is loaded
          */
-        PLUGIN,
+        PLUGIN(1, "Plugin"),
         /**
          * Make sure the plugin CONTAINS this version string
          */
-        PLUGIN_VERSION,
+        PLUGIN_VERSION(3, "Plugin version"),
         /**
          * Make sure the plugin version is lower
          */
-        PLUGIN_VERSION_IS_LOWER,
+        PLUGIN_VERSION_IS_LOWER(4, "Plugin version lower"),
         /**
          * Make sure the plugin version is higher
          */
-        PLUGIN_VERSION_IS_HIGHER,
+        PLUGIN_VERSION_IS_HIGHER(5, "Plugin version higher"),
         /**
          * Make sure the plugin has this class for main (written like in plugin.yml)
          */
-        PLUGIN_MAIN,
+        PLUGIN_MAIN(6, "Plugin main"),
         /**
-         * Plugin author
+         * Make sure the plugin has the following author
          */
-        PLUGIN_AUTHOR,
+        PLUGIN_AUTHOR(7, "Plugin author"),
         /**
-         * Placeholder API version higher
+         * PlaceholderAPI version higher
          */
-        PLACEHOLDERAPI_VERSION,
+        PLACEHOLDERAPI_VERSION(2, "PlaceholderAPI version"),
         /**
-         * Depend on another module
+         * Required module
          */
-        MODULE
+        MODULE(3,"Module"),
+        MODULE_VERSION(4,"Module version"),
+        MODULE_VERSION_IS_LOWER(5,"Module version lower"),
+        MODULE_VERSION_IS_HIGHER(6,"Module version higher");
+
+        private int priority = 0;
+        private String name = "";
+
+        ContraintType(int priority, String name) {
+            setPriority(priority);
+            setName(name);
+        }
+
+        public int getPriority() {
+            return priority;
+        }
+
+        public void setPriority(int priority) {
+            this.priority = priority;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }
