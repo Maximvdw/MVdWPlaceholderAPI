@@ -23,8 +23,6 @@ public class CustomPlaceholdersPack extends PlaceholderPack {
     public CustomPlaceholdersPack(Plugin plugin) {
         super(plugin, 1);
         instance = this;
-
-        PlaceholderPack.registerPlaceHolder(this);
     }
 
     @Override

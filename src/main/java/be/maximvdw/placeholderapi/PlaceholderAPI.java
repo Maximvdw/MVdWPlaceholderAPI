@@ -2,17 +2,13 @@ package be.maximvdw.placeholderapi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
 
 import be.maximvdw.placeholderapi.internal.CustomPlaceholdersPack;
+import be.maximvdw.placeholderapi.internal.PlaceholderPlugin;
 import be.maximvdw.placeholderapi.internal.PlaceholderPack;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent;
@@ -23,6 +19,8 @@ import be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent;
  * @author Maxim Van de Wynckel (Maximvdw)
  */
 public class PlaceholderAPI extends JavaPlugin {
+    /* Placeholder container */
+    private static PlaceholderPlugin placeholderContainer = null;
     /* Custom placeholders registered in the API */
     private static PlaceholderPack customPlaceholders = null;
     /* Placeholder change listeners */
@@ -40,6 +38,11 @@ public class PlaceholderAPI extends JavaPlugin {
 
     }
 
+    public boolean registerMVdWPlugin(Plugin plugin, PlaceholderPlugin placeholderContainer) {
+        PlaceholderAPI.placeholderContainer = placeholderContainer;
+        return true;
+    }
+
     /**
      * Replace placeholders in input
      *
@@ -48,7 +51,7 @@ public class PlaceholderAPI extends JavaPlugin {
      * @return Return result with replaced placeholders
      */
     public static String replacePlaceholders(OfflinePlayer offlinePlayer, String input) {
-        return PlaceholderPack.getPlaceholderResult(input,
+        return placeholderContainer.getPlaceholderResult(input,
                 offlinePlayer);
     }
 
@@ -58,7 +61,7 @@ public class PlaceholderAPI extends JavaPlugin {
      * @return Placeholder count
      */
     public static int getLoadedPlaceholderCount() {
-        return PlaceholderPack.getPlaceHolderCount();
+        return placeholderContainer.getPlaceHolderCount();
     }
 
     /**
@@ -87,7 +90,7 @@ public class PlaceholderAPI extends JavaPlugin {
                 "Custom MVdWPlaceholderAPI placeholder",
                 false,
                 new be.maximvdw.placeholderapi.internal.PlaceholderReplacer<String>(String.class,
-                      replacer) {
+                        replacer) {
                     @Override
                     public String getResult(String placeholder,
                                             OfflinePlayer player) {
@@ -97,10 +100,6 @@ public class PlaceholderAPI extends JavaPlugin {
                         return replacer.onPlaceholderReplace(event);
                     }
                 });
-        for (PlaceholderPack.PlaceholderRefreshHandler handler : PlaceholderPack
-                .getRefreshHandles()) {
-            handler.refreshPlaceholders(); // Refresh
-        }
         return true; // Placeholder registered
     }
 
@@ -143,10 +142,6 @@ public class PlaceholderAPI extends JavaPlugin {
                         return replacer.onPlaceholderReplace(event);
                     }
                 });
-        for (PlaceholderPack.PlaceholderRefreshHandler handler : PlaceholderPack
-                .getRefreshHandles()) {
-            handler.refreshPlaceholders(); // Refresh
-        }
         return true; // Placeholder registered
     }
 
