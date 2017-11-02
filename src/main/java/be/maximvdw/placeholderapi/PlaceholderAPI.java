@@ -20,7 +20,7 @@ import be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent;
  */
 public class PlaceholderAPI extends JavaPlugin {
     /* Placeholder container */
-    private static PlaceholderPlugin placeholderContainer = null;
+    private static List<PlaceholderPlugin> placeholderPlugins = new ArrayList<>();
     /* Custom placeholders registered in the API */
     private static PlaceholderPack customPlaceholders = null;
     /* Placeholder change listeners */
@@ -38,8 +38,12 @@ public class PlaceholderAPI extends JavaPlugin {
 
     }
 
-    public boolean registerMVdWPlugin(Plugin plugin, PlaceholderPlugin placeholderContainer) {
-        PlaceholderAPI.placeholderContainer = placeholderContainer;
+    public boolean registerMVdWPlugin(Plugin plugin, PlaceholderPlugin placeholderPlugin) {
+        if (customPlaceholders == null)
+            return false;
+        for (PlaceholderPlugin placeholderContainer : placeholderPlugins) {
+            placeholderContainer.registerPlaceHolder(customPlaceholders);
+        }
         return true;
     }
 
@@ -51,7 +55,9 @@ public class PlaceholderAPI extends JavaPlugin {
      * @return Return result with replaced placeholders
      */
     public static String replacePlaceholders(OfflinePlayer offlinePlayer, String input) {
-        return placeholderContainer.getPlaceholderResult(input,
+        if (placeholderPlugins.size() == 0)
+            return null;
+        return placeholderPlugins.get(0).getPlaceholderResult(input,
                 offlinePlayer);
     }
 
@@ -61,7 +67,9 @@ public class PlaceholderAPI extends JavaPlugin {
      * @return Placeholder count
      */
     public static int getLoadedPlaceholderCount() {
-        return placeholderContainer.getPlaceHolderCount();
+        if (placeholderPlugins.size() == 0)
+            return 0;
+        return placeholderPlugins.get(0).getPlaceHolderCount();
     }
 
     /**
