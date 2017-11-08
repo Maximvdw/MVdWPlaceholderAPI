@@ -4,29 +4,20 @@ import be.maximvdw.placeholderapi.internal.annotations.ModuleActionName;
 import be.maximvdw.placeholderapi.internal.annotations.ModuleConstraint;
 import be.maximvdw.placeholderapi.internal.annotations.ModuleConstraints;
 import be.maximvdw.placeholderapi.internal.annotations.ModuleName;
-import be.maximvdw.placeholderapi.internal.hooks.PluginHook;
 import be.maximvdw.placeholderapi.internal.storage.YamlBuilder;
 import be.maximvdw.placeholderapi.internal.storage.YamlStorage;
-import be.maximvdw.placeholderapi.internal.ui.SendConsole;
-import be.maximvdw.placeholderapi.internal.utils.bukkit.Version;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.InvalidClassException;
 import java.lang.annotation.Annotation;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * PlaceholderPack
