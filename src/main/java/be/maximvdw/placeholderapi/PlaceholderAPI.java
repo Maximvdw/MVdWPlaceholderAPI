@@ -38,13 +38,22 @@ public class PlaceholderAPI extends JavaPlugin {
 
     }
 
+    /**
+     * Register an MVdW Plugin
+     * @param plugin
+     * @param placeholderPlugin
+     * @return
+     */
     public boolean registerMVdWPlugin(Plugin plugin, PlaceholderPlugin placeholderPlugin) {
         if (customPlaceholders == null)
             return false;
-        for (PlaceholderPlugin placeholderContainer : placeholderPlugins) {
-            placeholderContainer.registerPlaceHolder(customPlaceholders);
+        if (!placeholderPlugins.contains(placeholderPlugin)) {
+            placeholderPlugin.registerPlaceHolder(customPlaceholders);
+            placeholderPlugins.add(placeholderPlugin);
+            return true;
+        }else{
+            return false;
         }
-        return true;
     }
 
     /**
