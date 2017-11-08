@@ -70,7 +70,6 @@ public abstract class PlaceholderPack {
         // Check annotations
         Class<? extends PlaceholderPack> componentClass = this.getClass().asSubclass(PlaceholderPack.class);
         // Load the module constraints
-        String actionName = "";
         Annotation[] annotations = componentClass.getAnnotations();
         if (annotations.length == 0) {
             new InvalidClassException("PlaceholderPack does not contain annotation information!").printStackTrace();
@@ -87,6 +86,7 @@ public abstract class PlaceholderPack {
             } else if (annotation instanceof ModuleName) {
                 if (actionName.equals("")) {
                     actionName = ((ModuleName) annotation).value().toLowerCase();
+                    name = actionName;
                 }
             } else if (annotation instanceof ModuleActionName) {
                 actionName = ((ModuleActionName)annotation).value().toLowerCase();
