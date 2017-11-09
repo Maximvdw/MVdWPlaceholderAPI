@@ -324,7 +324,7 @@ public abstract class PlaceholderPack {
         getConfigBuilder().addPart("# --------------------------------------- ##");
         getConfigBuilder().addEmptyPart();
         getConfigBuilder().addPart(" DO NOT EDIT THE CONFIG VERSION");
-        getConfigBuilder().addPart("config", getVersion());
+        getConfigBuilder().addPart("config", getConfigVersion());
         getConfigBuilder().addEmptyPart();
         getConfigBuilder().addPart(" Enable/Disable the placeholder group");
         getConfigBuilder().addPart(" PlaceholderPack groups will not be loaded into the memory");
