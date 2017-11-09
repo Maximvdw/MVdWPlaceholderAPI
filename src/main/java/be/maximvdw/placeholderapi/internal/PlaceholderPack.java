@@ -1,9 +1,6 @@
 package be.maximvdw.placeholderapi.internal;
 
-import be.maximvdw.placeholderapi.internal.annotations.ModuleActionName;
-import be.maximvdw.placeholderapi.internal.annotations.ModuleConstraint;
-import be.maximvdw.placeholderapi.internal.annotations.ModuleConstraints;
-import be.maximvdw.placeholderapi.internal.annotations.ModuleName;
+import be.maximvdw.placeholderapi.internal.annotations.*;
 import be.maximvdw.placeholderapi.internal.storage.YamlBuilder;
 import be.maximvdw.placeholderapi.internal.storage.YamlStorage;
 import org.bukkit.Location;
@@ -69,6 +66,8 @@ public abstract class PlaceholderPack {
         for (Annotation annotation : annotations) {
             if (annotation instanceof ModuleConstraint) {
                 addCondition((ModuleConstraint) annotation);
+            } else if (annotation instanceof ModuleVersion) {
+                setVersion(((ModuleVersion)annotation).value());
             } else if (annotation instanceof ModuleConstraints) {
                 ModuleConstraint[] subConstraints = ((ModuleConstraints) annotation).value();
                 for (ModuleConstraint subConstraint : subConstraints) {
