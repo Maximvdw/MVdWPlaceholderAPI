@@ -268,7 +268,9 @@ public class YamlStorage {
                 pluginConfig = new YamlConfiguration();
                 pluginConfig.load(configFile);
                 loaded = true;
-                jarURL.close();
+                if (jarURL != null) {
+                    jarURL.close();
+                }
             } catch (Exception e) {
                 if (errorLevel < 1) {
                     SendConsole.severe("Error while loading " + configFile + "!");
