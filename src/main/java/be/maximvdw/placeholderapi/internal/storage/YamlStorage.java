@@ -80,7 +80,7 @@ public class YamlStorage {
      * @param plugin Plugin
      */
     public YamlStorage(Plugin plugin, String folder, String configName, boolean resources, int version) {
-        this (plugin,folder,configName,resources,version,0);
+        this(plugin, folder, configName, resources, version, 0);
     }
 
 
@@ -90,7 +90,7 @@ public class YamlStorage {
      * @param plugin Plugin
      */
     public YamlStorage(Plugin plugin, String folder, String configName, int version, YamlBuilder builder) {
-        this(plugin,folder,configName,version,builder,0);
+        this(plugin, folder, configName, version, builder, 0);
     }
 
     /**
@@ -131,7 +131,7 @@ public class YamlStorage {
      */
     public YamlStorage(Plugin plugin, String folder, String configName, String resourceFolder, boolean resources,
                        int version) {
-        this(plugin,folder,configName,resourceFolder,resources,version,0);
+        this(plugin, folder, configName, resourceFolder, resources, version, 0);
     }
 
     public YamlStorage(Plugin plugin, String folder, String configName, String resourceFolder, boolean resources,
@@ -270,8 +270,10 @@ public class YamlStorage {
                 loaded = true;
                 jarURL.close();
             } catch (Exception e) {
-                if (errorLevel < 1)
+                if (errorLevel < 1) {
                     SendConsole.severe("Error while loading " + configFile + "!");
+                    e.printStackTrace();
+                }
             }
         }
     }
