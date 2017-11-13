@@ -18,8 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * PlaceholderPack
- *
- * Created by Maxim on 2/10/2017.
+ * <p>
+ * A placeholder pack contains multiple placeholders that are grouped together
  */
 
 public abstract class PlaceholderPack {
@@ -67,19 +67,22 @@ public abstract class PlaceholderPack {
             if (annotation instanceof ModuleConstraint) {
                 addCondition((ModuleConstraint) annotation);
             } else if (annotation instanceof ModuleVersion) {
-                setVersion(((ModuleVersion)annotation).value());
+                setVersion(((ModuleVersion) annotation).value());
             } else if (annotation instanceof ModuleConstraints) {
                 ModuleConstraint[] subConstraints = ((ModuleConstraints) annotation).value();
                 for (ModuleConstraint subConstraint : subConstraints) {
                     addCondition(subConstraint);
                 }
             } else if (annotation instanceof ModuleName) {
+                name = ((ModuleName) annotation).value().toLowerCase();
                 if (actionName.equals("")) {
-                    actionName = ((ModuleName) annotation).value().toLowerCase();
-                    name = actionName;
+                    actionName = name;
                 }
             } else if (annotation instanceof ModuleActionName) {
-                actionName = ((ModuleActionName)annotation).value().toLowerCase();
+                actionName = ((ModuleActionName) annotation).value().toLowerCase();
+                if (name.equals("")) {
+                    name = actionName;
+                }
             }
         }
     }
@@ -92,23 +95,17 @@ public abstract class PlaceholderPack {
     /**
      * Triggers on disable
      */
-    public void onDisable() {
-
-    }
+    public abstract void onDisable();
 
     /**
      * Triggers on delete
      */
-    public void onDelete() {
-
-    }
+    public abstract void onDelete();
 
     /**
      * Triggers on enable
      */
-    public void onEnable() {
-
-    }
+    public abstract void onEnable();
 
     /**
      * Get config
@@ -121,11 +118,21 @@ public abstract class PlaceholderPack {
         return storage.getConfig();
     }
 
-    public YamlStorage getStorage(){
+    /**
+     * Get config storage
+     *
+     * @return config storage
+     */
+    public YamlStorage getStorage() {
         return storage;
     }
 
-    public void setStorage(YamlStorage storage){
+    /**
+     * Set config storage
+     *
+     * @param storage config storage
+     */
+    public void setStorage(YamlStorage storage) {
         this.storage = storage;
     }
 
@@ -138,7 +145,12 @@ public abstract class PlaceholderPack {
         return plugin;
     }
 
-
+    /**
+     * Get placeholder replacer by placeholder
+     *
+     * @param placeholder Placeholder string without {}
+     * @return Placeholder replacer
+     */
     public PlaceholderReplacer<?> getPlaceholderReplacer(String placeholder) {
         if (placeholders.containsKey(placeholder.toLowerCase()))
             return placeholders.get(placeholder.toLowerCase());
@@ -262,7 +274,7 @@ public abstract class PlaceholderPack {
     }
 
     /**
-     * Set placeholder
+     * Add a new offline placeholder
      *
      * @param placeholder Place holder
      * @param description Description
@@ -362,8 +374,6 @@ public abstract class PlaceholderPack {
             }
         }
     }
-
-    public abstract void initialize();
 
     public boolean isOffline(String placeholder) {
         return (!getPlaceholderReplacer(placeholder).isOnline());
@@ -491,10 +501,20 @@ public abstract class PlaceholderPack {
         this.id = id;
     }
 
+    /**
+     * Get config version
+     *
+     * @return config version
+     */
     public int getConfigVersion() {
         return configVersion;
     }
 
+    /**
+     * Set config version
+     *
+     * @param configVersion config version
+     */
     public void setConfigVersion(int configVersion) {
         this.configVersion = configVersion;
     }

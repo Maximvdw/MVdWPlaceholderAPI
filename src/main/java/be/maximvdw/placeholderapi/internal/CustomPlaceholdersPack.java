@@ -26,7 +26,17 @@ public class CustomPlaceholdersPack extends PlaceholderPack {
     }
 
     @Override
-    public void initialize() {
+    public void onDisable() {
+
+    }
+
+    @Override
+    public void onDelete() {
+
+    }
+
+    @Override
+    public void onEnable() {
 
     }
 }

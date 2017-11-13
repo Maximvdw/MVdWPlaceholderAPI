@@ -3,16 +3,14 @@ package be.maximvdw.placeholderapi;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.maximvdw.placeholderapi.events.PlaceholderAddedEvent;
 import be.maximvdw.placeholderapi.internal.CustomPlaceholdersPack;
 import be.maximvdw.placeholderapi.internal.PlaceholderPlugin;
 import be.maximvdw.placeholderapi.internal.PlaceholderPack;
 import be.maximvdw.placeholderapi.internal.ui.SendConsole;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent;
 
 /**
  * MVdWPlaceholderAPI
@@ -30,8 +28,8 @@ public class PlaceholderAPI extends JavaPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-        Bukkit.getLogger().info("[MVdWPlaceholderAPI] Initializing ...");
         new SendConsole(this);
+        SendConsole.info("Initializing ...");
         customPlaceholders = new CustomPlaceholdersPack(this);
     }
 
@@ -42,9 +40,10 @@ public class PlaceholderAPI extends JavaPlugin {
 
     /**
      * Register an MVdW Plugin
-     * @param plugin
-     * @param placeholderPlugin
-     * @return
+     *
+     * @param plugin            Plugin
+     * @param placeholderPlugin Placeholder plugin container
+     * @return success
      */
     public boolean registerMVdWPlugin(Plugin plugin, PlaceholderPlugin placeholderPlugin) {
         if (customPlaceholders == null)
@@ -53,7 +52,7 @@ public class PlaceholderAPI extends JavaPlugin {
             placeholderPlugin.registerPlaceHolder(customPlaceholders);
             placeholderPlugins.add(placeholderPlugin);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -99,7 +98,7 @@ public class PlaceholderAPI extends JavaPlugin {
             return false;
         if (replacer == null)
             return false;
-        Bukkit.getLogger().info("[MVdWPlaceholderAPI] " + plugin.getName() + " added custom placeholder {"
+        SendConsole.info(plugin.getName() + " added custom placeholder {"
                 + placeholder.toLowerCase() + "}");
         for (PlaceholderAddedEvent event : placeholderAddedHandlers) {
             event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
@@ -113,7 +112,7 @@ public class PlaceholderAPI extends JavaPlugin {
                     @Override
                     public String getResult(String placeholder,
                                             OfflinePlayer player) {
-                        be.maximvdw.placeholderapi.PlaceholderReplacer replacer = (be.maximvdw.placeholderapi.PlaceholderReplacer) getArguments()[0];
+                        PlaceholderReplacer replacer = (PlaceholderReplacer) getArguments()[0];
                         PlaceholderReplaceEvent event = new PlaceholderReplaceEvent(
                                 player, placeholder);
                         return replacer.onPlaceholderReplace(event);
@@ -137,7 +136,7 @@ public class PlaceholderAPI extends JavaPlugin {
             return false;
         if (placeholder.equals(""))
             return false;
-        PlaceholderReplacer replacer = new PlaceholderReplacer() {
+        be.maximvdw.placeholderapi.PlaceholderReplacer replacer = new be.maximvdw.placeholderapi.PlaceholderReplacer() {
             @Override
             public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
                 return value;
@@ -155,7 +154,7 @@ public class PlaceholderAPI extends JavaPlugin {
                     @Override
                     public String getResult(String placeholder,
                                             OfflinePlayer player) {
-                        be.maximvdw.placeholderapi.PlaceholderReplacer replacer = (be.maximvdw.placeholderapi.PlaceholderReplacer) getArguments()[0];
+                        PlaceholderReplacer replacer = (PlaceholderReplacer) getArguments()[0];
                         PlaceholderReplaceEvent event = new PlaceholderReplaceEvent(
                                 player, placeholder);
                         return replacer.onPlaceholderReplace(event);
@@ -164,7 +163,12 @@ public class PlaceholderAPI extends JavaPlugin {
         return true; // Placeholder registered
     }
 
-    public void setPlaceholderListener(PlaceholderAddedEvent handler) {
+    /**
+     * Add a placeholder listener
+     *
+     * @param handler placeholder added handler
+     */
+    public void addPlaceholderListener(PlaceholderAddedEvent handler) {
         placeholderAddedHandlers.add(handler);
     }
 
