@@ -60,7 +60,7 @@ public abstract class PlaceholderPack {
         // Load the module constraints
         Annotation[] annotations = componentClass.getAnnotations();
         if (annotations.length == 0) {
-            new InvalidClassException("PlaceholderPack does not contain annotation information!").printStackTrace();
+            new InvalidClassException("Placeholder pack does not contain annotation information!").printStackTrace();
             return;
         }
         for (Annotation annotation : annotations) {
@@ -340,7 +340,7 @@ public abstract class PlaceholderPack {
         getConfigBuilder().addPart("config", getConfigVersion());
         getConfigBuilder().addEmptyPart();
         getConfigBuilder().addPart(" Enable/Disable the placeholder group");
-        getConfigBuilder().addPart(" PlaceholderPack groups will not be loaded into the memory");
+        getConfigBuilder().addPart(" Placeholder groups will not be loaded into the memory");
         getConfigBuilder().addPart(" when not used.");
         getConfigBuilder().addPart("enabled", true);
         getConfigBuilder().addEmptyPart();
@@ -367,7 +367,7 @@ public abstract class PlaceholderPack {
                 getConfigBuilder().addPart(placeholderSection);
                 getConfigBuilder().addEmptyPart();
             } else if (replacerVal.getDefaultOutput() != null) {
-                getConfigBuilder().addPart(" PlaceholderPack settings {" + placeholderString + "} returns");
+                getConfigBuilder().addPart(" Placeholder settings {" + placeholderString + "} returns");
                 YamlBuilder.YamlSectionPart placeholderSection = new YamlBuilder.YamlSectionPart(placeholderString);
                 placeholderSection.addPart(" Default return value");
                 placeholderSection.addPart("default", replacerVal.getDefaultOutput());
