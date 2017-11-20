@@ -207,4 +207,9 @@ public class PlaceholderAPI extends JavaPlugin {
         placeholderAddedHandlers.add(handler);
     }
 
+
+    @Deprecated
+    public void setPlaceholderListener(PlaceholderAddedEvent handler) {
+        placeholderAddedHandlers.add(handler);
+    }
 }
