@@ -5,6 +5,7 @@ import java.util.List;
 
 import be.maximvdw.placeholderapi.events.PlaceholderAddedEvent;
 import be.maximvdw.placeholderapi.internal.CustomPlaceholdersPack;
+import be.maximvdw.placeholderapi.internal.MVdWPlaceholderReplacer;
 import be.maximvdw.placeholderapi.internal.PlaceholderPlugin;
 import be.maximvdw.placeholderapi.internal.PlaceholderPack;
 import be.maximvdw.placeholderapi.internal.ui.SendConsole;
@@ -35,6 +36,21 @@ public class PlaceholderAPI extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+    }
+
+    /**
+     * Register an MVdW Placeholder plugin to use to replace placeholders DO NOT
+     * USE THIS METHOD UNLESS YOU ARE ME
+     *
+     * @param plugin
+     *            Maximvdw Plugin
+     * @param replacer
+     *            MVdW Placeholder replacer
+     */
+    @Deprecated
+    public void registerMVdWPlaceholderReplacer(Plugin plugin,
+                                                MVdWPlaceholderReplacer replacer) {
 
     }
 
