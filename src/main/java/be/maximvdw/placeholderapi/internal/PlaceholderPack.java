@@ -66,6 +66,8 @@ public abstract class PlaceholderPack {
         for (Annotation annotation : annotations) {
             if (annotation instanceof ModuleConstraint) {
                 addCondition((ModuleConstraint) annotation);
+            } else if (annotation instanceof ModuleAuthor) {
+                setAuthor(((ModuleAuthor) annotation).value());
             } else if (annotation instanceof ModuleVersion) {
                 setVersion(((ModuleVersion) annotation).value());
             } else if (annotation instanceof ModuleConstraints) {
