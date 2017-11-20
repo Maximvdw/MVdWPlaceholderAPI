@@ -16,7 +16,6 @@ import java.util.Map;
 public abstract class BaseEventHook implements Listener {
     private static List<TriggerEvent> hooks = new ArrayList<TriggerEvent>();
     private Map<EventCondition, String> eventConditions = new HashMap<EventCondition, String>();
-    private static String actionName = "";
     /* Plugin information */
     private String name = "";
     private String url = "";
@@ -72,13 +71,13 @@ public abstract class BaseEventHook implements Listener {
             builder.addPart(new YamlEmptyPart());
             builder.addPart(new YamlEmptyPart());
             builder.addPart(" Do you want to enable this event hook?");
-            builder.addPart(" Enabling this hook will trigger " + getActionName());
+            builder.addPart(" Enabling this hook will trigger");
             builder.addPart(" when " + getWhen());
             builder.addPart(" for " + getWho());
             builder.addPart("enabled", false);
             builder.addPart(new YamlEmptyPart());
-            builder.addPart(" " + getActionName() + " to trigger");
-            builder.addPart(getActionName().toLowerCase(), "default");
+            builder.addPart(" What do you want to trigger?");
+            builder.addPart("trigger", "default");
             builder.addPart(new YamlEmptyPart());
             builder.addPart(new YamlEmptyPart());
             setConfigTemplate(builder);
@@ -87,12 +86,12 @@ public abstract class BaseEventHook implements Listener {
 
     public void enableEvent(Player player) {
         for (TriggerEvent event : getHooks())
-            event.enableEvent(player, getConfig().getString(BaseEventHook.getActionName().toLowerCase()));
+            event.enableEvent(player, getConfig().getString("trigger"));
     }
 
     public void disableEvent(Player player) {
         for (TriggerEvent event : getHooks())
-            event.disableEvent(player, getConfig().getString(BaseEventHook.getActionName().toLowerCase()));
+            event.disableEvent(player, getConfig().getString("trigger"));
     }
 
     public static void registerTriggerEvent(TriggerEvent event) {
@@ -176,14 +175,6 @@ public abstract class BaseEventHook implements Listener {
 
     public void setWho(String playersAction) {
         this.who = playersAction;
-    }
-
-    public static String getActionName() {
-        return actionName;
-    }
-
-    public static void setActionName(String actionName) {
-        BaseEventHook.actionName = actionName;
     }
 
     public YamlBuilder getConfigTemplate() {
