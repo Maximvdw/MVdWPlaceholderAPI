@@ -29,6 +29,7 @@ public class PlaceholderAPI extends JavaPlugin {
     private static List<PlaceholderAddedEvent> placeholderAddedHandlers = new ArrayList<PlaceholderAddedEvent>();
 
     private static Map<String, PlaceholderReplacer> customPlaceholdersOld = new HashMap<>();
+    private static List<be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent> placeholderAddedHandlersOld = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -137,6 +138,9 @@ public class PlaceholderAPI extends JavaPlugin {
         for (PlaceholderAddedEvent event : placeholderAddedHandlers) {
             event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
         }
+        for (be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent event : placeholderAddedHandlersOld) {
+            event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
+        }
         customPlaceholdersOld.put(placeholder, replacer);
         customPlaceholders.addOfflinePlaceholder(
                 placeholder,
@@ -180,6 +184,10 @@ public class PlaceholderAPI extends JavaPlugin {
         for (PlaceholderAddedEvent event : placeholderAddedHandlers) {
             event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
         }
+        for (be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent event : placeholderAddedHandlersOld) {
+            event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
+        }
+        customPlaceholdersOld.put(placeholder, replacer);
         customPlaceholders.addOfflinePlaceholder(
                 placeholder,
                 "Custom MVdWPlaceholderAPI placeholder",
@@ -209,7 +217,7 @@ public class PlaceholderAPI extends JavaPlugin {
 
 
     @Deprecated
-    public void setPlaceholderListener(PlaceholderAddedEvent handler) {
-        placeholderAddedHandlers.add(handler);
+    public void setPlaceholderListener(be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent handler) {
+        placeholderAddedHandlersOld.add(handler);
     }
 }
