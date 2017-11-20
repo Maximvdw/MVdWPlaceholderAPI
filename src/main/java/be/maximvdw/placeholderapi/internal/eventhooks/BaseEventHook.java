@@ -1,25 +1,17 @@
 package be.maximvdw.placeholderapi.internal.eventhooks;
 
-import be.maximvdw.placeholderapi.internal.hooks.PluginHook;
-import be.maximvdw.placeholderapi.internal.ui.SendConsole;
-import be.maximvdw.placeholderapi.internal.utils.bukkit.Version;
 import be.maximvdw.placeholderapi.internal.storage.YamlBuilder;
 import be.maximvdw.placeholderapi.internal.storage.YamlBuilder.YamlEmptyPart;
 import be.maximvdw.placeholderapi.internal.storage.YamlStorage;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class BaseEventHook implements Listener {
-	private static List<TriggerEvent> hooks = new ArrayList<TriggerEvent>();
-	private static List<BaseEventHook> eventHooks = new ArrayList<BaseEventHook>();
 	private Map<EventCondition, String> eventConditions = new HashMap<EventCondition, String>();
 	private static String actionName = "";
 	/* Plugin information */
@@ -34,7 +26,7 @@ public abstract class BaseEventHook implements Listener {
 	private Map<Player, EventPlaceholderContainer> placeholders = new HashMap<Player, EventPlaceholderContainer>();
 
 	private YamlBuilder configTemplate = null;
-	private int version = 1;
+	private int configVersion = 1;
 	private Plugin plugin = null;
 
 	private YamlStorage storage = null;
@@ -42,109 +34,15 @@ public abstract class BaseEventHook implements Listener {
 	public BaseEventHook(Plugin plugin, String shortName, int version) {
 		setPlugin(plugin);
 		setShortName(shortName);
+		this.configVersion = version;
 	}
 
-	public static void stopAllListeners() {
-		for (BaseEventHook hook : eventHooks) {
-			if (hook.isEnabled()) {
-				try {
-					SendConsole.info("Unregistering event: " + hook.getName());
-					HandlerList.unregisterAll(hook);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
-		eventHooks.clear();
+	public int getConfigVersion(){
+		return configVersion;
 	}
 
 	public Map<EventCondition, String> getEventConditions() {
 		return this.eventConditions;
-	}
-
-	public static void registerHook(BaseEventHook eventHook) {
-		try {
-			Plugin eventPlugin = null;
-			for (EventCondition condition : eventHook.getEventConditions().keySet()) {
-				boolean passed = false;
-				switch (condition) {
-				case PLUGIN:
-					if (PluginHook.isLoaded(eventHook.getEventConditions().get(condition))) {
-						eventPlugin = PluginHook.loadPlugin(eventHook.getEventConditions().get(condition));
-						eventHook.setEnabled(true);
-						passed = true;
-					} else {
-						eventHook.setEnabled(false);
-					}
-					break;
-				case MAIN:
-					if (eventPlugin == null)
-						eventHook.setEnabled(false);
-					else if (eventPlugin.getDescription().getMain()
-							.contains(eventHook.getEventConditions().get(condition))) {
-						eventHook.setEnabled(true);
-						passed = true;
-					} else {
-						eventHook.setEnabled(false);
-					}
-					break;
-				case VERSION:
-					if (eventPlugin == null)
-						eventHook.setEnabled(false);
-					else if (eventPlugin.getDescription().getVersion()
-							.contains(eventHook.getEventConditions().get(condition))) {
-						eventHook.setEnabled(true);
-						passed = true;
-					} else {
-						eventHook.setEnabled(false);
-					}
-					break;
-				case VERSION_IS_HIGHER:
-					if (eventPlugin == null)
-						eventHook.setEnabled(false);
-					else if (new Version(eventHook.getEventConditions().get(condition))
-							.compare(new Version(eventPlugin.getDescription().getVersion())) >= 0) {
-						eventHook.setEnabled(true);
-						passed = true;
-					} else {
-						eventHook.setEnabled(false);
-					}
-					break;
-				case VERSION_IS_LOWER:
-					if (eventPlugin == null)
-						eventHook.setEnabled(false);
-					else if (new Version(eventHook.getEventConditions().get(condition))
-							.compare(new Version(eventPlugin.getDescription().getVersion())) == -1) {
-						eventHook.setEnabled(true);
-						passed = true;
-					} else {
-						eventHook.setEnabled(false);
-					}
-					break;
-				default:
-					break;
-				}
-				if (!passed)
-					break;
-			}
-		} catch (Exception ex) {
-			SendConsole.stacktrace(ex);
-		}
-		eventHook.generateConfig();
-
-		if (eventHook.isEnabled()) {
-			SendConsole.info("Loading event hook: " + eventHook.getName() + " ...");
-			eventHook.setStorage(new YamlStorage(eventHook.getPlugin(), "events",
-					"event_" + eventHook.shortName.toLowerCase(), eventHook.version, eventHook.getConfigTemplate(),1));
-			eventHook.loadConfig();
-		}
-
-		if (eventHook.isEnabled()) {
-			SendConsole.info("Enabling event hook: " + eventHook.getName() + "!");
-			Bukkit.getPluginManager().registerEvents(eventHook, eventHook.getPlugin());
-			eventHook.start();
-		}
-		eventHooks.add(eventHook);
 	}
 
 	public void loadConfig() {
@@ -167,7 +65,7 @@ public abstract class BaseEventHook implements Listener {
 			builder.addPart("----------------------------------------");
 			builder.addPart(new YamlEmptyPart());
 			builder.addPart(" DO NOT EDIT THIS CONFIG VERSION!");
-			builder.addPart("config", version);
+			builder.addPart("config", configVersion);
 			builder.addPart(new YamlEmptyPart());
 			builder.addPart(new YamlEmptyPart());
 			builder.addPart(" Do you want to enable this event hook?");
@@ -220,20 +118,6 @@ public abstract class BaseEventHook implements Listener {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public void enableEvent(Player player) {
-		for (TriggerEvent event : getHooks())
-			event.enableEvent(player, getConfig().getString(getActionName().toLowerCase()));
-	}
-
-	public void disableEvent(Player player) {
-		for (TriggerEvent event : getHooks())
-			event.disableEvent(player, getConfig().getString(getActionName().toLowerCase()));
-	}
-
-	public static void registerTriggerEvent(TriggerEvent event) {
-		hooks.add(event);
 	}
 
 	public String getShortName() {
@@ -292,14 +176,6 @@ public abstract class BaseEventHook implements Listener {
 		this.plugin = plugin;
 	}
 
-	public static List<TriggerEvent> getHooks() {
-		return hooks;
-	}
-
-	public static void setHooks(List<TriggerEvent> hooks) {
-		BaseEventHook.hooks = hooks;
-	}
-
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -327,37 +203,6 @@ public abstract class BaseEventHook implements Listener {
 
 	public void setPlaceholders(Map<Player, EventPlaceholderContainer> placeholders) {
 		this.placeholders = placeholders;
-	}
-
-	public static void generateBBCodeFile() {
-		try {
-			FileWriter fw = new FileWriter(new File("eventtriggers.txt"), false);
-			fw.write("==========================================================\n");
-			fw.write("Event Triggers list generated on " + new Date().toString() + "\n");
-			fw.write("Amount of event triggers: " + eventHooks.size() + "\n");
-			fw.write("==========================================================\n");
-			fw.write("\n");
-			fw.write("\n");
-			fw.write("\n");
-			for (BaseEventHook event : eventHooks) {
-				fw.write("[h2]" + event.getDescription() + "[/h2]\n");
-				if (!event.getUrl().equals("")) {
-					fw.write(event.getUrl());
-					fw.write("\n");
-				}
-				fw.write("\n");
-				fw.write("[B][U][SIZE=5]Default Config[/SIZE][/U][/B]\n");
-				fw.write("[CODE]\n");
-				fw.write(event.getConfigTemplate().toString());
-				fw.write("[/CODE]\n");
-				fw.write("\n");
-				fw.write("\n");
-				fw.write("\n");
-			}
-			fw.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
 	public static enum EventCondition {
