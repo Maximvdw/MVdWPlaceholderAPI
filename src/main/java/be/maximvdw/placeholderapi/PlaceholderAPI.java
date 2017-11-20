@@ -1,7 +1,9 @@
 package be.maximvdw.placeholderapi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import be.maximvdw.placeholderapi.events.PlaceholderAddedEvent;
 import be.maximvdw.placeholderapi.internal.CustomPlaceholdersPack;
@@ -26,6 +28,8 @@ public class PlaceholderAPI extends JavaPlugin {
     /* Placeholder change listeners */
     private static List<PlaceholderAddedEvent> placeholderAddedHandlers = new ArrayList<PlaceholderAddedEvent>();
 
+    private static Map<String, PlaceholderReplacer> customPlaceholdersOld = new HashMap<>();
+
     @Override
     public void onEnable() {
         super.onEnable();
@@ -43,15 +47,23 @@ public class PlaceholderAPI extends JavaPlugin {
      * Register an MVdW Placeholder plugin to use to replace placeholders DO NOT
      * USE THIS METHOD UNLESS YOU ARE ME
      *
-     * @param plugin
-     *            Maximvdw Plugin
-     * @param replacer
-     *            MVdW Placeholder replacer
+     * @param plugin   Maximvdw Plugin
+     * @param replacer MVdW Placeholder replacer
      */
     @Deprecated
     public void registerMVdWPlaceholderReplacer(Plugin plugin,
                                                 MVdWPlaceholderReplacer replacer) {
 
+    }
+
+    /**
+     * Get all custom placeholder replacer
+     *
+     * @return Map with placeholder and placeholder replacer
+     */
+    @Deprecated
+    public static Map<String, PlaceholderReplacer> getCustomPlaceholders() {
+        return customPlaceholdersOld;
     }
 
     /**
@@ -125,6 +137,7 @@ public class PlaceholderAPI extends JavaPlugin {
         for (PlaceholderAddedEvent event : placeholderAddedHandlers) {
             event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
         }
+        customPlaceholdersOld.put(placeholder, replacer);
         customPlaceholders.addOfflinePlaceholder(
                 placeholder,
                 "Custom MVdWPlaceholderAPI placeholder",
