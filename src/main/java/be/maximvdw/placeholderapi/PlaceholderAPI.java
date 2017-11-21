@@ -11,6 +11,7 @@ import be.maximvdw.placeholderapi.internal.MVdWPlaceholderReplacer;
 import be.maximvdw.placeholderapi.internal.PlaceholderPlugin;
 import be.maximvdw.placeholderapi.internal.PlaceholderPack;
 import be.maximvdw.placeholderapi.internal.ui.SendConsole;
+import be.maximvdw.placeholderapi.internal.utils.bukkit.BukkitUtils;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,6 +38,7 @@ public class PlaceholderAPI extends JavaPlugin {
         new SendConsole(this);
         SendConsole.info("Initializing ...");
         customPlaceholders = new CustomPlaceholdersPack(this);
+        new BukkitUtils();
     }
 
     @Override
