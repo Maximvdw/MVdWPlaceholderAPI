@@ -85,6 +85,8 @@ public abstract class PlaceholderPack {
                 if (name.equals("")) {
                     name = actionName;
                 }
+            } else if (annotation instanceof ModuleDescription) {
+                setDescription(((ModuleDescription) annotation).value());
             }
         }
     }
@@ -346,7 +348,7 @@ public abstract class PlaceholderPack {
         getConfigBuilder().addEmptyPart();
         for (Map.Entry<String, PlaceholderReplacer<?>> entry : placeholders.entrySet()) {
             String placeholderString = entry.getKey().replace("{", "").replace("}", "")
-                    .replace("*", "").replace("@", "").replace("#", "");
+                    .replace("*", "").replace("@", "").replace("#", "").replace(":","_");
             PlaceholderReplacer<?> replacerVal = entry.getValue();
             if (replacerVal.getDefaultTrueOutput() != null) {
                 // Create true or false
