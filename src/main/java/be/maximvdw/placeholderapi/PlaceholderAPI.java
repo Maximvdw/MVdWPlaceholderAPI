@@ -11,7 +11,9 @@ import be.maximvdw.placeholderapi.internal.MVdWPlaceholderReplacer;
 import be.maximvdw.placeholderapi.internal.PlaceholderPlugin;
 import be.maximvdw.placeholderapi.internal.PlaceholderPack;
 import be.maximvdw.placeholderapi.internal.ui.SendConsole;
+import be.maximvdw.placeholderapi.internal.updater.MVdWUpdaterHook;
 import be.maximvdw.placeholderapi.internal.utils.bukkit.BukkitUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +41,14 @@ public class PlaceholderAPI extends JavaPlugin {
         SendConsole.info("Initializing ...");
         customPlaceholders = new CustomPlaceholdersPack(this);
         new BukkitUtils();
+
+        int resource = 11182;
+        try {
+            if (Bukkit.getPluginManager().isPluginEnabled("MVdWUpdater"))
+                new MVdWUpdaterHook(this, resource);
+        } catch (Throwable ex) {
+            // No updater
+        }
     }
 
     @Override

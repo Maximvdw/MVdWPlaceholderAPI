@@ -20,6 +20,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>be.maximvdw</groupId>
+			<artifactId>MVdWUpdater</artifactId>
+			<version>1.0.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>1.9</version>
