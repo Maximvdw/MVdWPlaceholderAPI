@@ -12,7 +12,10 @@ import be.maximvdw.placeholderapi.internal.PlaceholderPlugin;
 import be.maximvdw.placeholderapi.internal.PlaceholderPack;
 import be.maximvdw.placeholderapi.internal.ui.SendConsole;
 import be.maximvdw.placeholderapi.internal.updater.MVdWUpdaterHook;
+import be.maximvdw.placeholderapi.internal.utils.DateUtils;
+import be.maximvdw.placeholderapi.internal.utils.NumberUtils;
 import be.maximvdw.placeholderapi.internal.utils.bukkit.BukkitUtils;
+import be.maximvdw.placeholderapi.internal.utils.chat.ColorUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
@@ -40,7 +43,12 @@ public class PlaceholderAPI extends JavaPlugin {
         new SendConsole(this);
         SendConsole.info("Initializing ...");
         customPlaceholders = new CustomPlaceholdersPack(this);
+
+        // Prevent linkage errors
+        new ColorUtils();
         new BukkitUtils();
+        new DateUtils();
+        new NumberUtils();
 
         int resource = 11182;
         try {
