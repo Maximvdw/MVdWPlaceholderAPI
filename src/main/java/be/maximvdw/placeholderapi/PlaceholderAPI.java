@@ -7,7 +7,6 @@ import java.util.Map;
 
 import be.maximvdw.placeholderapi.events.PlaceholderAddedEvent;
 import be.maximvdw.placeholderapi.internal.CustomPlaceholdersPack;
-import be.maximvdw.placeholderapi.internal.MVdWPlaceholderReplacer;
 import be.maximvdw.placeholderapi.internal.PlaceholderPlugin;
 import be.maximvdw.placeholderapi.internal.PlaceholderPack;
 import be.maximvdw.placeholderapi.internal.ui.SendConsole;
@@ -35,7 +34,6 @@ public class PlaceholderAPI extends JavaPlugin {
     private static List<PlaceholderAddedEvent> placeholderAddedHandlers = new ArrayList<PlaceholderAddedEvent>();
 
     private static Map<String, PlaceholderReplacer> customPlaceholdersOld = new HashMap<>();
-    private static List<be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent> placeholderAddedHandlersOld = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -65,29 +63,6 @@ public class PlaceholderAPI extends JavaPlugin {
     }
 
     /**
-     * Register an MVdW Placeholder plugin to use to replace placeholders DO NOT
-     * USE THIS METHOD UNLESS YOU ARE ME
-     *
-     * @param plugin   Maximvdw Plugin
-     * @param replacer MVdW Placeholder replacer
-     */
-    @Deprecated
-    public void registerMVdWPlaceholderReplacer(Plugin plugin,
-                                                MVdWPlaceholderReplacer replacer) {
-
-    }
-
-    /**
-     * Get all custom placeholder replacer
-     *
-     * @return Map with placeholder and placeholder replacer
-     */
-    @Deprecated
-    public static Map<String, PlaceholderReplacer> getCustomPlaceholders() {
-        return customPlaceholdersOld;
-    }
-
-    /**
      * Register an MVdW Plugin
      *
      * @param plugin            Plugin
@@ -96,10 +71,11 @@ public class PlaceholderAPI extends JavaPlugin {
      */
     public boolean registerMVdWPlugin(Plugin plugin, PlaceholderPlugin placeholderPlugin) {
         if (customPlaceholders == null)
-            return false;
+            customPlaceholders = new CustomPlaceholdersPack(this);
         if (!placeholderPlugins.contains(placeholderPlugin)) {
             placeholderPlugin.registerPlaceHolder(customPlaceholders);
             placeholderPlugins.add(placeholderPlugin);
+            SendConsole.info("Hooked into MVdW plugin: " + plugin.getName());
             return true;
         } else {
             return false;
@@ -158,9 +134,6 @@ public class PlaceholderAPI extends JavaPlugin {
         for (PlaceholderAddedEvent event : placeholderAddedHandlers) {
             event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
         }
-        for (be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent event : placeholderAddedHandlersOld) {
-            event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
-        }
         customPlaceholdersOld.put(placeholder, replacer);
         customPlaceholders.addOfflinePlaceholder(
                 placeholder,
@@ -204,9 +177,6 @@ public class PlaceholderAPI extends JavaPlugin {
         for (PlaceholderAddedEvent event : placeholderAddedHandlers) {
             event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
         }
-        for (be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent event : placeholderAddedHandlersOld) {
-            event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
-        }
         customPlaceholdersOld.put(placeholder, replacer);
         customPlaceholders.addOfflinePlaceholder(
                 placeholder,
@@ -233,11 +203,5 @@ public class PlaceholderAPI extends JavaPlugin {
      */
     public void addPlaceholderListener(PlaceholderAddedEvent handler) {
         placeholderAddedHandlers.add(handler);
-    }
-
-
-    @Deprecated
-    public void setPlaceholderListener(be.maximvdw.placeholderapi.internal.PlaceholderAddedEvent handler) {
-        placeholderAddedHandlersOld.add(handler);
     }
 }
