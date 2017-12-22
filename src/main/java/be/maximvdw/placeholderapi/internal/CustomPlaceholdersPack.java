@@ -22,6 +22,7 @@ public class CustomPlaceholdersPack extends PlaceholderPack {
 
     public CustomPlaceholdersPack(Plugin plugin) {
         super(plugin, 1);
+        setEnabled(true);
         instance = this;
     }
 
