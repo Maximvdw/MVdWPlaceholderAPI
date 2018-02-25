@@ -75,7 +75,7 @@
 					<relocations>
 						<relocation>
 							<pattern>org.bstats</pattern>
-							<shadedPattern>be.maximvdw.placeholderapi.bstats</shadedPattern>
+							<shadedPattern>be.maximvdw.placeholderapi.internal.bstats</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
