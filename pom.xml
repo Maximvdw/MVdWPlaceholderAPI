@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>be.maximvdw</groupId>
 	<artifactId>MVdWPlaceholderAPI</artifactId>
-	<version>2.3.1-SNAPSHOT</version>
+	<version>2.4.0-SNAPSHOT</version>
 	<name>MVdWPlaceholderAPI</name>
 	<description>Placeholder API for MVdW Software plugins</description>
 	<repositories>
@@ -17,6 +17,10 @@
 			<name>Private Projects</name>
 			<url>http://repo.mvdw-software.be/content/groups/private-group/</url>
 		</repository>
+		<repository>
+			<id>bstats-repo</id>
+			<url>http://repo.bstats.org/content/repositories/releases/</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -28,6 +32,12 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bstats</groupId>
+			<artifactId>bstats-bukkit</artifactId>
+			<version>1.2</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -51,6 +61,27 @@
 					<encoding>UTF-8</encoding>
 					<useIncrementalCompilation>false</useIncrementalCompilation>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<relocations>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>be.maximvdw.placeholderapi.bstats</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

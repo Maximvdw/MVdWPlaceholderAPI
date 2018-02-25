@@ -943,6 +943,8 @@ public class PlaceholderConversion {
                             return new String[0];
                         if (item.getItemMeta() == null)
                             return new String[0];
+                        if (item.getItemMeta().getLore() == null)
+                            return new String[0];
                         return ListUtils.listToArray(item.getItemMeta().getLore());
                     }
                 });

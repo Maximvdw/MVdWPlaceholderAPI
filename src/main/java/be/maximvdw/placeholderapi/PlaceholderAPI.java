@@ -10,6 +10,7 @@ import be.maximvdw.placeholderapi.internal.utils.DateUtils;
 import be.maximvdw.placeholderapi.internal.utils.NumberUtils;
 import be.maximvdw.placeholderapi.internal.utils.bukkit.BukkitUtils;
 import be.maximvdw.placeholderapi.internal.utils.chat.ColorUtils;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
@@ -30,6 +31,8 @@ public class PlaceholderAPI extends JavaPlugin {
     private static PlaceholderPack customPlaceholders = null;
     /* Placeholder change listeners */
     private static List<PlaceholderAddedEvent> placeholderAddedHandlers = new ArrayList<PlaceholderAddedEvent>();
+    /* Metrics (global for future custom stats) */
+    private static Metrics metrics = null;
 
     @Override
     public void onEnable() {
@@ -50,6 +53,13 @@ public class PlaceholderAPI extends JavaPlugin {
                 new MVdWUpdaterHook(this, resource);
         } catch (Throwable ex) {
             // No updater
+        }
+
+        SendConsole.info("Sending metrics ...");
+        try {
+            metrics = new Metrics(this);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -90,8 +100,9 @@ public class PlaceholderAPI extends JavaPlugin {
     public static String replacePlaceholders(OfflinePlayer offlinePlayer, String input) {
         if (placeholderPlugins.size() == 0) {
             SendConsole.warning("There is no MVdW placeholder plugin installed!");
-            SendConsole.warning("Put on of Maximvdw's premium placeholder plugins in the server!");
-            return null;
+            SendConsole.warning("Put one of Maximvdw's premium placeholder plugins in the server!");
+
+            return input;
         }
         return placeholderPlugins.get(0).getPlaceholderResult(input,
                 offlinePlayer);
