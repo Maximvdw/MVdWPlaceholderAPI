@@ -67,6 +67,11 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.1.0</version>
 				<configuration>
+					<artifactSet>
+						<includes>
+							<include>org.bstats:*</include>
+						</includes>
+					</artifactSet>
 					<relocations>
 						<relocation>
 							<pattern>org.bstats</pattern>
