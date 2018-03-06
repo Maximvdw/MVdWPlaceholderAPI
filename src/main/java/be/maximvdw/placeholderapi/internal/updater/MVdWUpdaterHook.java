@@ -1,9 +1,9 @@
 package be.maximvdw.placeholderapi.internal.updater;
 
 import be.maximvdw.mvdwupdater.MVdWUpdater;
-import be.maximvdw.mvdwupdater.Version;
 import be.maximvdw.mvdwupdater.spigotsite.api.resource.Resource;
 import be.maximvdw.placeholderapi.internal.ui.SendConsole;
+import be.maximvdw.placeholderapi.internal.utils.bukkit.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 

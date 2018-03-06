@@ -87,6 +87,8 @@ public abstract class PlaceholderPack {
                 }
             } else if (annotation instanceof ModuleDescription) {
                 setDescription(((ModuleDescription) annotation).value());
+            }else if (annotation instanceof ModulePermalink){
+                setPluginURL(((ModulePermalink) annotation).value());
             }
         }
     }

@@ -625,13 +625,14 @@ public class PlaceholderConversion {
 
                     @Override
                     public String getResult(String placeholder, OfflinePlayer player) {
-                        int idx = Integer.parseInt(placeholder.replace(getArguments()[0].toString() + "#", ""));
+                        int idx = Integer.parseInt(placeholder.substring(placeholder.indexOf("#") + 1));
                         String[] list = (String[]) replacer.getResult(placeholder, player);
                         if (list == null)
                             return "";
                         if (list.length < idx)
                             return "";
-
+                        if (idx <= 0)
+                            return "";
                         return list[idx - 1];
                     }
                 });
