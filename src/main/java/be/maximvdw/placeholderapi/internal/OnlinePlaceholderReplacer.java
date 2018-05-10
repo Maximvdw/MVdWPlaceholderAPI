@@ -33,4 +33,16 @@ public abstract class OnlinePlaceholderReplacer<T> extends
 	public T getResult(String placeholder, OfflinePlayer player) {
 		return null;
 	}
+
+	/**
+	 * Get placeholde result
+	 *
+	 * @param player
+	 *            Player
+	 * @return placeholder result
+	 */
+	public T getResult(String placeholder, Player player, Player viewingPlayer) {
+		return getResult(placeholder,player);
+	}
+
 }

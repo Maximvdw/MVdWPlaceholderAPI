@@ -24,7 +24,6 @@ public class MVdWUpdaterHook {
             MVdWUpdater updater = (MVdWUpdater) Bukkit.getPluginManager().getPlugin("MVdWUpdater");
             SendConsole.info("Hooked into MVdWUpdater!");
 
-
             // Resource id found
             SendConsole.info("Checking for new updates for: " + plugin.getName() + " ...");
 

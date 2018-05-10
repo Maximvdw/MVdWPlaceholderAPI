@@ -7,7 +7,7 @@ package be.maximvdw.placeholderapi;
  */
 public interface PlaceholderReplacer {
     /**
-     * On placeholder replac event
+     * On placeholder replace event
      *
      * @param event PlaceholderReplaceEvent holding the player and placeholder
      * @return Return result of the placeholder

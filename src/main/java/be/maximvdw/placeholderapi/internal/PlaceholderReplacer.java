@@ -61,12 +61,23 @@ public abstract class PlaceholderReplacer<T> {
     }
 
     /**
-     * Get placeholde result
+     * Get placeholder result
      *
      * @param player Player
      * @return placeholder result
      */
     public abstract T getResult(String placeholder, OfflinePlayer player);
+
+
+    /**
+     * Get placeholde result
+     *
+     * @param player Player
+     * @return placeholder result
+     */
+    public T getResult(String placeholder, OfflinePlayer player, OfflinePlayer viewingPlayer){
+        return getResult(placeholder,player);
+    }
 
     public Object[] getArguments() {
         return args;
