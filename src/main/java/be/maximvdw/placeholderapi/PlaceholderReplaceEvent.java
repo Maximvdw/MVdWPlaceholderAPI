@@ -9,20 +9,13 @@ import org.bukkit.entity.Player;
  * @author Maxim Van de Wynckel
  */
 public class PlaceholderReplaceEvent {
-	private Player player = null; // The player if he is online
 	private OfflinePlayer offlinePlayer = null; // The offline player if player
-												// is not null
-	private String placeholder = ""; // The placeholder (with or without
-										// wildcards)
+	private String placeholder = ""; // The placeholder (with or without wildcards)
 
 	public PlaceholderReplaceEvent(OfflinePlayer offlinePlayer,
 			String placeholder) {
-		setOfflinePlayer(offlinePlayer);
-		if (offlinePlayer != null) {
-			if (offlinePlayer.isOnline())
-				setPlayer(getOfflinePlayer().getPlayer());
-		}
-		setPlaceholder(placeholder);
+		this.offlinePlayer = offlinePlayer
+		this.placeholder = placeholder;
 	}
 
 	/**
@@ -34,10 +27,6 @@ public class PlaceholderReplaceEvent {
 		return placeholder;
 	}
 
-	private void setPlaceholder(String placeholder) {
-		this.placeholder = placeholder;
-	}
-
 	/**
 	 * Get the offline player instance
 	 * 
@@ -47,21 +36,13 @@ public class PlaceholderReplaceEvent {
 		return offlinePlayer;
 	}
 
-	private void setOfflinePlayer(OfflinePlayer offlinePlayer) {
-		this.offlinePlayer = offlinePlayer;
-	}
-
 	/**
 	 * Get the online player instance
 	 * 
 	 * @return Online player
 	 */
 	public Player getPlayer() {
-		return player;
-	}
-
-	private void setPlayer(Player player) {
-		this.player = player;
+		return isOnline() ? offlinePlayer.getPlayer() : null;
 	}
 
 	/**
@@ -70,8 +51,6 @@ public class PlaceholderReplaceEvent {
 	 * @return Player is online
 	 */
 	public boolean isOnline() {
-		if (player == null)
-			return false;
-		return player.isOnline();
+		return offlinePlayer != null && offlinePlayer.isOnline();
 	}
 }
