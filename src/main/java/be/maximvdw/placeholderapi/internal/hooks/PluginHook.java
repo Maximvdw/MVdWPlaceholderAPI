@@ -13,10 +13,7 @@ public class PluginHook {
 	 */
 	public static boolean isLoaded(String pluginName) {
 		Plugin pl = Bukkit.getPluginManager().getPlugin(pluginName);
-		if (pl == null)
-			return false;
-		else
-			return true;
+		return pl != null;
 	}
 
 	/**
