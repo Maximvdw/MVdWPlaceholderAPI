@@ -1,6 +1,6 @@
 package be.maximvdw.placeholderapi.internal;
 
-import org.bukkit.OfflinePlayer;
+import be.maximvdw.placeholderapi.PlaceholderReplaceEvent;
 import org.bukkit.entity.Player;
 
 public abstract class OnlinePlaceholderReplacer<T> extends
@@ -15,34 +15,24 @@ public abstract class OnlinePlaceholderReplacer<T> extends
 	}
 
 	/**
-	 * Get placeholde result
+	 * Get placeholder result
 	 * 
-	 * @param player
-	 *            Player
+	 * @param event Placeholder replace event
 	 * @return placeholder result
 	 */
-	public abstract T getResult(String placeholder, Player player);
-
-	/**
-	 * Get placeholde result
-	 * 
-	 * @param player
-	 *            Player
-	 * @return placeholder result
-	 */
-	public T getResult(String placeholder, OfflinePlayer player) {
-		return null;
+	public T getResult(PlaceholderReplaceEvent event){
+		return getResult(event.getPlaceholder(),event.getPlayer());
 	}
 
 	/**
-	 * Get placeholde result
+	 * Get placeholder result
 	 *
 	 * @param player
 	 *            Player
 	 * @return placeholder result
 	 */
-	public T getResult(String placeholder, Player player, Player viewingPlayer) {
-		return getResult(placeholder,player);
+	@Deprecated
+	public T getResult(String placeholder, Player player){
+		return null;
 	}
-
 }

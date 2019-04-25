@@ -54,9 +54,9 @@ public @interface ModuleConstraint {
          */
         PLUGIN_AUTHOR(7, "Plugin author"),
         /**
-         * PlaceholderAPI version higher
+         * PlaceholderAPIBungee version higher
          */
-        PLACEHOLDERAPI_VERSION(2, "PlaceholderAPI version"),
+        PLACEHOLDERAPI_VERSION(2, "PlaceholderAPIBungee version"),
         /**
          * Required module
          */

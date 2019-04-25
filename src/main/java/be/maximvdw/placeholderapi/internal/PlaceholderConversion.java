@@ -1,5 +1,6 @@
 package be.maximvdw.placeholderapi.internal;
 
+import be.maximvdw.placeholderapi.PlaceholderReplaceEvent;
 import be.maximvdw.placeholderapi.internal.utils.ListUtils;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -9,9 +10,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Calendar;
 
-/**
- * Created by Maxim on 28/08/2017.
- */
 public class PlaceholderConversion {
     public static void convertOnlineCalendarPlaceholders(PlaceholderPack placeholderPackObj, String placeholder, String description,
                                                          final PlaceholderReplacer<?> replacer) {
@@ -19,8 +17,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.getWeekYear();
@@ -30,8 +28,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Long>(Long.class) {
 
                     @Override
-                    public Long getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Long getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0L;
                         return cal.getTimeInMillis();
@@ -41,8 +39,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.getFirstDayOfWeek();
@@ -52,8 +50,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DAY_OF_MONTH);
@@ -63,8 +61,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DAY_OF_WEEK);
@@ -74,8 +72,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DAY_OF_WEEK_IN_MONTH);
@@ -85,8 +83,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DAY_OF_YEAR);
@@ -96,8 +94,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.HOUR);
@@ -107,8 +105,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.HOUR_OF_DAY);
@@ -118,8 +116,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.ERA);
@@ -129,8 +127,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.MILLISECOND);
@@ -140,8 +138,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.MINUTE);
@@ -151,8 +149,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.MONTH);
@@ -162,8 +160,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.SECOND);
@@ -173,8 +171,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.WEEK_OF_MONTH);
@@ -184,8 +182,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.WEEK_OF_YEAR);
@@ -195,8 +193,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.YEAR);
@@ -206,8 +204,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DST_OFFSET);
@@ -217,8 +215,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.ZONE_OFFSET);
@@ -232,8 +230,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.getWeekYear();
@@ -243,8 +241,8 @@ public class PlaceholderConversion {
                 requiresplayer, new PlaceholderReplacer<Long>(Long.class) {
 
                     @Override
-                    public Long getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Long getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0L;
                         return cal.getTimeInMillis();
@@ -254,8 +252,8 @@ public class PlaceholderConversion {
                 requiresplayer, new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.getFirstDayOfWeek();
@@ -265,8 +263,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DAY_OF_MONTH);
@@ -276,8 +274,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DAY_OF_WEEK);
@@ -287,8 +285,8 @@ public class PlaceholderConversion {
                 requiresplayer, new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DAY_OF_WEEK_IN_MONTH);
@@ -298,8 +296,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DAY_OF_YEAR);
@@ -309,8 +307,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.HOUR);
@@ -320,8 +318,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.HOUR_OF_DAY);
@@ -331,8 +329,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.ERA);
@@ -342,8 +340,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.MILLISECOND);
@@ -353,8 +351,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.MINUTE);
@@ -364,8 +362,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.MONTH);
@@ -375,8 +373,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.SECOND);
@@ -386,8 +384,8 @@ public class PlaceholderConversion {
                 requiresplayer, new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.WEEK_OF_MONTH);
@@ -397,8 +395,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.WEEK_OF_YEAR);
@@ -408,8 +406,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.YEAR);
@@ -419,8 +417,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.DST_OFFSET);
@@ -430,8 +428,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Calendar cal = (Calendar) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Calendar cal = (Calendar) replacer.getResult(event);
                         if (cal == null)
                             return 0;
                         return cal.get(Calendar.ZONE_OFFSET);
@@ -445,8 +443,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Double>(Double.class) {
 
                     @Override
-                    public Double getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Double getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0.0;
                         return loc.getX();
@@ -456,8 +454,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Double>(Double.class) {
 
                     @Override
-                    public Double getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Double getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0.0;
                         return loc.getY();
@@ -467,8 +465,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Double>(Double.class) {
 
                     @Override
-                    public Double getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Double getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0.0;
                         return loc.getZ();
@@ -478,8 +476,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getBlockX();
@@ -489,8 +487,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getBlockY();
@@ -500,8 +498,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getBlockZ();
@@ -511,8 +509,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<World>(World.class) {
 
                     @Override
-                    public World getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public World getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return null;
                         return loc.getWorld();
@@ -522,8 +520,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Float>(Float.class) {
 
                     @Override
-                    public Float getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Float getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0F;
                         return loc.getYaw();
@@ -533,8 +531,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Float>(Float.class) {
 
                     @Override
-                    public Float getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Float getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0F;
                         return loc.getPitch();
@@ -544,8 +542,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getChunk().getX();
@@ -555,8 +553,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getChunk().getZ();
@@ -566,8 +564,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getChunk().getEntities().length;
@@ -577,8 +575,8 @@ public class PlaceholderConversion {
                 description + " chunk amount of tile entities", new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getChunk().getTileEntities().length;
@@ -588,8 +586,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return false;
                         return loc.getChunk().isLoaded();
@@ -604,9 +602,9 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String>(String.class, placeholder) {
 
                     @Override
-                    public String getResult(String placeholder, Player player) {
-                        int idx = Integer.parseInt(placeholder.replace(getArguments()[0].toString() + "#", ""));
-                        String[] list = (String[]) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        int idx = Integer.parseInt(event.getPlaceholder().replace(getArguments()[0].toString() + "#", ""));
+                        String[] list = (String[]) replacer.getResult(event);
                         if (list == null)
                             return "";
                         if (list.length < idx)
@@ -624,9 +622,9 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class, placeholder) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        int idx = Integer.parseInt(placeholder.substring(placeholder.indexOf("#") + 1));
-                        String[] list = (String[]) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        int idx = Integer.parseInt(event.getPlaceholder().substring(event.getPlaceholder().indexOf("#") + 1));
+                        String[] list = (String[]) replacer.getResult(event);
                         if (list == null)
                             return "";
                         if (list.length < idx)
@@ -645,9 +643,9 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class, placeholder) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        int idx = Integer.parseInt(placeholder.replace(getArguments()[0].toString() + "#", ""));
-                        Integer[] list = (Integer[]) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        int idx = Integer.parseInt(event.getPlaceholder().replace(getArguments()[0].toString() + "#", ""));
+                        Integer[] list = (Integer[]) replacer.getResult(event);
                         if (list == null)
                             return 0;
                         if (list.length < idx)
@@ -665,9 +663,9 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class, placeholder) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        int idx = Integer.parseInt(placeholder.replace(getArguments()[0].toString() + "#", ""));
-                        Integer[] list = (Integer[]) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        int idx = Integer.parseInt(event.getPlaceholder().replace(getArguments()[0].toString() + "#", ""));
+                        Integer[] list = (Integer[]) replacer.getResult(event);
                         if (list == null)
                             return 0;
                         if (list.length < idx)
@@ -685,9 +683,9 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class, placeholder) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        int idx = Integer.parseInt(placeholder.replace(getArguments()[0].toString() + "#", ""));
-                        Boolean[] list = (Boolean[]) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        int idx = Integer.parseInt(event.getPlaceholder().replace(getArguments()[0].toString() + "#", ""));
+                        Boolean[] list = (Boolean[]) replacer.getResult(event);
                         if (list == null)
                             return false;
                         if (list.length < idx)
@@ -706,9 +704,9 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class, placeholder) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        int idx = Integer.parseInt(placeholder.replace(getArguments()[0].toString() + "#", ""));
-                        Boolean[] list = (Boolean[]) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        int idx = Integer.parseInt(event.getPlaceholder().replace(getArguments()[0].toString() + "#", ""));
+                        Boolean[] list = (Boolean[]) replacer.getResult(event);
                         if (list == null)
                             return false;
                         if (list.length < idx)
@@ -726,8 +724,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getAmount();
@@ -737,8 +735,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return "";
                         return item.getType().name();
@@ -749,8 +747,8 @@ public class PlaceholderConversion {
 
                     @SuppressWarnings("deprecation")
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getTypeId();
@@ -760,8 +758,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getMaxStackSize();
@@ -771,8 +769,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Short>(Short.class) {
 
                     @Override
-                    public Short getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Short getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getDurability();
@@ -782,8 +780,8 @@ public class PlaceholderConversion {
                 playerrequired, new PlaceholderReplacer<Short>(Short.class) {
 
                     @Override
-                    public Short getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Short getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getType().getMaxDurability();
@@ -793,8 +791,8 @@ public class PlaceholderConversion {
                 playerrequired, new PlaceholderReplacer<Short>(Short.class) {
 
                     @Override
-                    public Short getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Short getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return (short) (item.getType().getMaxDurability() - item.getDurability());
@@ -804,8 +802,8 @@ public class PlaceholderConversion {
                 playerrequired, new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getType().getMaxStackSize();
@@ -815,8 +813,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return "";
                         return item.getType().name();
@@ -826,8 +824,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isBlock();
@@ -837,8 +835,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().hasGravity();
@@ -848,8 +846,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isBurnable();
@@ -859,8 +857,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isEdible();
@@ -870,8 +868,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isFlammable();
@@ -881,8 +879,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isOccluding();
@@ -892,8 +890,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isRecord();
@@ -903,8 +901,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isSolid();
@@ -914,8 +912,8 @@ public class PlaceholderConversion {
                 playerrequired, new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isTransparent();
@@ -925,8 +923,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return "";
                         if (item.getItemMeta() == null)
@@ -938,8 +936,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String[]>(String[].class) {
 
                     @Override
-                    public String[] getResult(String placeholder, OfflinePlayer player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public String[] getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return new String[0];
                         if (item.getItemMeta() == null)
@@ -957,8 +955,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        World world = (World) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        World world = (World) replacer.getResult(event);
                         if (world == null)
                             return "";
                         return world.getName();
@@ -968,8 +966,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        World world = (World) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        World world = (World) replacer.getResult(event);
                         if (world == null)
                             return "";
                         return world.getName();
@@ -979,8 +977,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        World world = (World) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        World world = (World) replacer.getResult(event);
                         if (world == null)
                             return "";
                         return world.getUID().toString();
@@ -990,8 +988,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        World world = (World) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        World world = (World) replacer.getResult(event);
                         if (world == null)
                             return 0;
                         return world.getPlayers().size();
@@ -1004,8 +1002,8 @@ public class PlaceholderConversion {
         placeholderPackObj.addPlaceholder(placeholder, description + " world name", new OnlinePlaceholderReplacer<String>(String.class) {
 
             @Override
-            public String getResult(String placeholder, Player player) {
-                World world = (World) replacer.getResult(placeholder, player);
+            public String getResult(PlaceholderReplaceEvent event) {
+                World world = (World) replacer.getResult(event);
                 if (world == null)
                     return "";
                 return world.getName();
@@ -1015,8 +1013,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, Player player) {
-                        World world = (World) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        World world = (World) replacer.getResult(event);
                         if (world == null)
                             return "";
                         return world.getName();
@@ -1026,8 +1024,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, Player player) {
-                        World world = (World) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        World world = (World) replacer.getResult(event);
                         if (world == null)
                             return "";
                         return world.getUID().toString();
@@ -1037,8 +1035,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        World world = (World) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        World world = (World) replacer.getResult(event);
                         if (world == null)
                             return 0;
                         return world.getPlayers().size();
@@ -1052,8 +1050,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getAmount();
@@ -1063,8 +1061,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return "";
                         return item.getType().name();
@@ -1075,8 +1073,8 @@ public class PlaceholderConversion {
 
                     @SuppressWarnings("deprecation")
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getTypeId();
@@ -1086,8 +1084,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getMaxStackSize();
@@ -1097,8 +1095,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Short>(Short.class) {
 
                     @Override
-                    public Short getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Short getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getDurability();
@@ -1108,8 +1106,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Short>(Short.class) {
 
                     @Override
-                    public Short getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Short getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getType().getMaxDurability();
@@ -1119,8 +1117,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Short>(Short.class) {
 
                     @Override
-                    public Short getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Short getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return (short) (item.getType().getMaxDurability() - item.getDurability());
@@ -1130,8 +1128,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return 0;
                         return item.getType().getMaxStackSize();
@@ -1141,8 +1139,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return "";
                         return item.getType().name();
@@ -1152,8 +1150,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isBlock();
@@ -1163,8 +1161,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().hasGravity();
@@ -1174,8 +1172,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isBurnable();
@@ -1185,8 +1183,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isEdible();
@@ -1196,8 +1194,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isFlammable();
@@ -1207,8 +1205,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isOccluding();
@@ -1218,8 +1216,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isRecord();
@@ -1229,8 +1227,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isSolid();
@@ -1240,8 +1238,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return false;
                         return item.getType().isTransparent();
@@ -1251,8 +1249,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return "";
                         if (item.getItemMeta() == null)
@@ -1264,8 +1262,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String[]>(String[].class) {
 
                     @Override
-                    public String[] getResult(String placeholder, Player player) {
-                        ItemStack item = (ItemStack) replacer.getResult(placeholder, player);
+                    public String[] getResult(PlaceholderReplaceEvent event) {
+                        ItemStack item = (ItemStack) replacer.getResult(event);
                         if (item == null)
                             return new String[0];
                         if (item.getItemMeta() == null)
@@ -1283,8 +1281,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String pl, OfflinePlayer player) {
-                        Boolean result = (Boolean) replacer.getResult(pl, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        Boolean result = (Boolean) replacer.getResult(event);
                         String resultString = result
                                 ? placeholderPackObj.getConfig().getString(
                                 placeholder.replace("*", "").replace("@", "").replace("#", "") + ".true")
@@ -1298,8 +1296,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String pl, OfflinePlayer player) {
-                        Boolean result = (Boolean) replacer.getResult(pl, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        Boolean result = (Boolean) replacer.getResult(event);
                         return String.valueOf(result);
                     }
                 }.setDefaultTrueOutput("true").setDefaultFalseOutput("false"));
@@ -1310,8 +1308,8 @@ public class PlaceholderConversion {
         placeholderPackObj.addPlaceholder(placeholder.toLowerCase(), description, new OnlinePlaceholderReplacer<String>(String.class) {
 
             @Override
-            public String getResult(String pl, Player player) {
-                Boolean result = (Boolean) replacer.getResult(pl, player);
+            public String getResult(PlaceholderReplaceEvent event) {
+                Boolean result = (Boolean) replacer.getResult(event);
 
                 String resultString = result
                         ? placeholderPackObj.getConfig()
@@ -1326,8 +1324,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String pl, Player player) {
-                        Boolean result = (Boolean) replacer.getResult(pl, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        Boolean result = (Boolean) replacer.getResult(event);
                         return String.valueOf(result);
                     }
                 }.setDefaultTrueOutput("true").setDefaultFalseOutput("false"));
@@ -1338,8 +1336,8 @@ public class PlaceholderConversion {
         placeholderPackObj.addPlaceholder(placeholder.toLowerCase(), description, new OnlinePlaceholderReplacer<String>(String.class) {
 
             @Override
-            public String getResult(String placeholder, Player player) {
-                OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(placeholder, player);
+            public String getResult(PlaceholderReplaceEvent event) {
+                OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(event);
                 if (returnPlayer == null)
                     return "";
                 return returnPlayer.getName();
@@ -1349,8 +1347,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, Player player) {
-                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(event);
                         if (returnPlayer == null)
                             return "";
                         return returnPlayer.getName();
@@ -1360,8 +1358,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, Player player) {
-                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(event);
                         if (returnPlayer == null)
                             return "";
                         return returnPlayer.getUniqueId().toString();
@@ -1371,8 +1369,8 @@ public class PlaceholderConversion {
                 new OnlinePlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, Player player) {
-                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(event);
                         if (returnPlayer == null)
                             return false;
                         return returnPlayer.isOnline();
@@ -1386,8 +1384,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(event);
                         if (returnPlayer == null)
                             return "";
                         return returnPlayer.getName();
@@ -1397,8 +1395,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(event);
                         if (returnPlayer == null)
                             return "";
                         return returnPlayer.getName();
@@ -1408,8 +1406,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<String>(String.class) {
 
                     @Override
-                    public String getResult(String placeholder, OfflinePlayer player) {
-                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(placeholder, player);
+                    public String getResult(PlaceholderReplaceEvent event) {
+                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(event);
                         if (returnPlayer == null)
                             return "";
                         return returnPlayer.getUniqueId().toString();
@@ -1419,8 +1417,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        OfflinePlayer returnPlayer = (OfflinePlayer) replacer.getResult(event);
                         if (returnPlayer == null)
                             return false;
                         return returnPlayer.isOnline();
@@ -1434,8 +1432,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Double>(Double.class) {
 
                     @Override
-                    public Double getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Double getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0.0;
                         return loc.getX();
@@ -1445,8 +1443,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Double>(Double.class) {
 
                     @Override
-                    public Double getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Double getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0.0;
                         return loc.getY();
@@ -1456,8 +1454,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Double>(Double.class) {
 
                     @Override
-                    public Double getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Double getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0.0;
                         return loc.getZ();
@@ -1467,8 +1465,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getBlockX();
@@ -1478,8 +1476,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getBlockY();
@@ -1489,8 +1487,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getBlockZ();
@@ -1500,8 +1498,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<World>(World.class) {
 
                     @Override
-                    public World getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public World getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return null;
                         return loc.getWorld();
@@ -1511,8 +1509,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Float>(Float.class) {
 
                     @Override
-                    public Float getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Float getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0F;
                         return loc.getYaw();
@@ -1522,8 +1520,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Float>(Float.class) {
 
                     @Override
-                    public Float getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Float getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0F;
                         return loc.getPitch();
@@ -1533,8 +1531,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getChunk().getX();
@@ -1544,8 +1542,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getChunk().getZ();
@@ -1555,8 +1553,8 @@ public class PlaceholderConversion {
                 playerrequired, new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getChunk().getEntities().length;
@@ -1567,8 +1565,8 @@ public class PlaceholderConversion {
                 new PlaceholderReplacer<Integer>(Integer.class) {
 
                     @Override
-                    public Integer getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Integer getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return 0;
                         return loc.getChunk().getTileEntities().length;
@@ -1578,8 +1576,8 @@ public class PlaceholderConversion {
                 playerrequired, new PlaceholderReplacer<Boolean>(Boolean.class) {
 
                     @Override
-                    public Boolean getResult(String placeholder, OfflinePlayer player) {
-                        Location loc = (Location) replacer.getResult(placeholder, player);
+                    public Boolean getResult(PlaceholderReplaceEvent event) {
+                        Location loc = (Location) replacer.getResult(event);
                         if (loc == null)
                             return false;
                         return loc.getChunk().isLoaded();

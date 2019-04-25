@@ -9,19 +9,17 @@ import org.bukkit.entity.Player;
  * @author Maxim Van de Wynckel
  */
 public class PlaceholderReplaceEvent {
-	private Player player = null; // The player if he is online
 	private OfflinePlayer offlinePlayer = null; // The offline player if player
 												// is not null
+	private OfflinePlayer offlineViewingPlayer = null; // The offline player that is viewing the user
+														// In most cases this is the user itself
 	private String placeholder = ""; // The placeholder (with or without
 										// wildcards)
 
 	public PlaceholderReplaceEvent(OfflinePlayer offlinePlayer,
 			String placeholder) {
+	    setOfflineViewingPlayer(offlinePlayer);
 		setOfflinePlayer(offlinePlayer);
-		if (offlinePlayer != null) {
-			if (offlinePlayer.isOnline())
-				setPlayer(getOfflinePlayer().getPlayer());
-		}
 		setPlaceholder(placeholder);
 	}
 
@@ -52,16 +50,44 @@ public class PlaceholderReplaceEvent {
 	}
 
 	/**
+	 * Get the offline viewing player instance
+	 *
+	 * @return Offline player
+	 */
+	public OfflinePlayer getOfflineViewingPlayer() {
+		return offlineViewingPlayer;
+	}
+
+	private void setOfflineViewingPlayer(OfflinePlayer offlinePlayer) {
+		this.offlineViewingPlayer = offlineViewingPlayer;
+	}
+
+	/**
 	 * Get the online player instance
 	 * 
 	 * @return Online player
 	 */
 	public Player getPlayer() {
-		return player;
+        if (offlinePlayer != null) {
+            if (offlinePlayer.isOnline())
+                return getOfflinePlayer().getPlayer();
+        }
+        return null;
 	}
 
-	private void setPlayer(Player player) {
-		this.player = player;
+
+
+	/**
+	 * Get the online player instance
+	 *
+	 * @return Online viewing player
+	 */
+	public Player getViewingPlayer() {
+        if (offlineViewingPlayer != null) {
+            if (offlineViewingPlayer.isOnline())
+                return getOfflineViewingPlayer().getPlayer();
+        }
+        return null;
 	}
 
 	/**
@@ -70,8 +96,8 @@ public class PlaceholderReplaceEvent {
 	 * @return Player is online
 	 */
 	public boolean isOnline() {
-		if (player == null)
+		if (offlinePlayer == null)
 			return false;
-		return player.isOnline();
+		return offlinePlayer.isOnline();
 	}
 }

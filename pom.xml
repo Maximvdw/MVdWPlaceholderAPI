@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>be.maximvdw</groupId>
 	<artifactId>MVdWPlaceholderAPI</artifactId>
-	<version>2.5.2-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 	<name>MVdWPlaceholderAPI</name>
 	<description>Placeholder API for MVdW Software plugins</description>
 	<repositories>
@@ -13,13 +13,12 @@
 			<url>http://repo.mvdw-software.be/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>mvdw-software</id>
-			<name>Private Projects</name>
-			<url>http://repo.mvdw-software.be/content/groups/private-group/</url>
-		</repository>
-		<repository>
 			<id>bstats-repo</id>
 			<url>http://repo.bstats.org/content/repositories/releases/</url>
+		</repository>
+		<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -29,9 +28,27 @@
 			<version>1.6.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>net.md-5</groupId>
+			<artifactId>bungeecord-api</artifactId>
+			<version>1.12-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<!--Spigot API-->
+		<!--You only need one of the two, don't put both. Spigot is recommended.-->
+		<dependency>
 			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot</artifactId>
-			<version>1.9</version>
+			<artifactId>spigot-api</artifactId>
+			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<!--Bukkit API-->
+		<!--You only need one of the two, don't put both. Spigot is recommended.-->
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
+			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bstats</groupId>
@@ -78,6 +95,14 @@
 							<shadedPattern>be.maximvdw.placeholderapi.internal.bstats</shadedPattern>
 						</relocation>
 					</relocations>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/**</exclude>
+							</excludes>
+						</filter>
+					</filters>
 				</configuration>
 				<executions>
 					<execution>

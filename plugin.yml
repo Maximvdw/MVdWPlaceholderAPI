@@ -5,8 +5,8 @@
 ##
 
 name: MVdWPlaceholderAPI
-version: 2.6.0
+version: 3.0.0
 description: Placeholder API for MVdW Software plugins
 author: Maximvdw
 website: http://www.mvdw-software.com/
-main: be.maximvdw.placeholderapi.PlaceholderAPI
+main: be.maximvdw.placeholderapi.PlaceholderAPIBungee

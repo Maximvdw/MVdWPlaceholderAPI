@@ -24,22 +24,20 @@ import java.util.List;
  *
  * @author Maxim Van de Wynckel (Maximvdw)
  */
-public class PlaceholderAPI extends JavaPlugin {
+public class PlaceholderAPI extends JavaPlugin{
     /* Placeholder container */
     private static List<PlaceholderPlugin> placeholderPlugins = new ArrayList<>();
     /* Custom placeholders registered in the API */
     private static PlaceholderPack customPlaceholders = null;
     /* Placeholder change listeners */
     private static List<PlaceholderAddedEvent> placeholderAddedHandlers = new ArrayList<PlaceholderAddedEvent>();
-    /* Metrics (global for future custom stats) */
-    private static Metrics metrics = null;
 
     @Override
     public void onEnable() {
         super.onEnable();
         new SendConsole(this);
-        SendConsole.info("Initializing ...");
-        customPlaceholders = new CustomPlaceholdersPack(this);
+        PlaceholderAPI.initialize(this);
+        SendConsole.info("Initializing placeholders ...");
 
         // Prevent linkage errors
         new ColorUtils();
@@ -57,15 +55,14 @@ public class PlaceholderAPI extends JavaPlugin {
 
         SendConsole.info("Sending metrics ...");
         try {
-            metrics = new Metrics(this);
+            new Metrics(this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    @Override
-    public void onDisable() {
-
+    public static void initialize(PlaceholderAPI api) {
+        customPlaceholders = new CustomPlaceholdersPack(api);
     }
 
     /**
@@ -76,8 +73,9 @@ public class PlaceholderAPI extends JavaPlugin {
      * @return success
      */
     public boolean registerMVdWPlugin(Plugin plugin, PlaceholderPlugin placeholderPlugin) {
-        if (customPlaceholders == null)
-            customPlaceholders = new CustomPlaceholdersPack(this);
+        if (customPlaceholders == null){
+            SendConsole.severe("Unable to hook into MVdW Placeholder plugin!");
+        }
         if (!placeholderPlugins.contains(placeholderPlugin)) {
             placeholderPlugin.registerPlaceHolder(customPlaceholders);
             placeholderPlugins.add(placeholderPlugin);
@@ -100,8 +98,7 @@ public class PlaceholderAPI extends JavaPlugin {
     public static String replacePlaceholders(OfflinePlayer offlinePlayer, String input) {
         if (placeholderPlugins.size() == 0) {
             SendConsole.warning("There is no MVdW placeholder plugin installed!");
-            SendConsole.warning("Put one of Maximvdw's premium placeholder plugins in the server!");
-
+            SendConsole.warning("Put one of Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames, ...!");
             return input;
         }
         return placeholderPlugins.get(0).getPlaceholderResult(input,
@@ -116,7 +113,7 @@ public class PlaceholderAPI extends JavaPlugin {
     public static int getLoadedPlaceholderCount() {
         if (placeholderPlugins.size() == 0) {
             SendConsole.warning("There is no MVdW placeholder plugin installed!");
-            SendConsole.warning("Put on of Maximvdw's premium placeholder plugins in the server!");
+            SendConsole.warning("Put one of Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames, ...!");
             return 0;
         }
         return placeholderPlugins.get(0).getPlaceHolderCount();
@@ -147,11 +144,8 @@ public class PlaceholderAPI extends JavaPlugin {
                 new be.maximvdw.placeholderapi.internal.PlaceholderReplacer<String>(String.class,
                         replacer) {
                     @Override
-                    public String getResult(String placeholder,
-                                            OfflinePlayer player) {
+                    public String getResult(PlaceholderReplaceEvent event) {
                         PlaceholderReplacer replacer = (PlaceholderReplacer) getArguments()[0];
-                        PlaceholderReplaceEvent event = new PlaceholderReplaceEvent(
-                                player, placeholder);
                         return replacer.onPlaceholderReplace(event);
                     }
                 });
@@ -190,12 +184,9 @@ public class PlaceholderAPI extends JavaPlugin {
                 new be.maximvdw.placeholderapi.internal.PlaceholderReplacer<String>(String.class,
                         replacer) {
                     @Override
-                    public String getResult(String placeholder,
-                                            OfflinePlayer player) {
+                    public String getResult(PlaceholderReplaceEvent replaceEvent) {
                         PlaceholderReplacer replacer = (PlaceholderReplacer) getArguments()[0];
-                        PlaceholderReplaceEvent event = new PlaceholderReplaceEvent(
-                                player, placeholder);
-                        return replacer.onPlaceholderReplace(event);
+                        return replacer.onPlaceholderReplace(replaceEvent);
                     }
                 });
         for (PlaceholderAddedEvent event : placeholderAddedHandlers) {
