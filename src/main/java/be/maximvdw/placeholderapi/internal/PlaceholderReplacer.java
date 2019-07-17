@@ -60,13 +60,16 @@ public abstract class PlaceholderReplacer<T> {
     public T getResult(PlaceholderReplaceEvent event){
         // Will be implemented by newer placeholder versions
         // Will not be called by older versions
-        return null;
+        // Compensated by redirecting to older call
+        // Because one of these three "getResult" functions will be implemented
+        // it is not going to cause a recursive loop
+        return this.getResult(event.getPlaceholder(), event.getOfflinePlayer());
     }
 
     @Deprecated
     public T getResult(String placeholder, OfflinePlayer player){
         PlaceholderReplaceEvent replaceEvent = new PlaceholderReplaceEvent(player,placeholder);
-        return getResult(replaceEvent);
+        return this.getResult(replaceEvent);
     }
 
     /**
@@ -78,7 +81,8 @@ public abstract class PlaceholderReplacer<T> {
      */
     @Deprecated
     public T getResult(String placeholder, Player player){
-        return getResult(placeholder,(OfflinePlayer) player);
+        PlaceholderReplaceEvent replaceEvent = new PlaceholderReplaceEvent(player,placeholder);
+        return this.getResult(replaceEvent);
     }
 
     public Object[] getArguments() {

@@ -1320,7 +1320,7 @@ public class PlaceholderConversion {
             }
         }.setDefaultTrueOutput(replacer.getDefaultTrueOutput())
                 .setDefaultFalseOutput(replacer.getDefaultFalseOutput()));
-        placeholderPackObj.addPlaceholder(placeholder.toLowerCase(), description + " [Raw frue/false]",
+        placeholderPackObj.addPlaceholder(placeholder.toLowerCase() + "_raw", description + " [Raw frue/false]",
                 new OnlinePlaceholderReplacer<String>(String.class) {
 
                     @Override
