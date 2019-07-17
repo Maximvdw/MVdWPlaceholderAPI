@@ -58,12 +58,15 @@ public abstract class PlaceholderReplacer<T> {
      * @return placeholder result
      */
     public T getResult(PlaceholderReplaceEvent event){
-        return getResult(event.getPlaceholder(),event.getOfflinePlayer());
+        // Will be implemented by newer placeholder versions
+        // Will not be called by older versions
+        return null;
     }
 
     @Deprecated
     public T getResult(String placeholder, OfflinePlayer player){
-        return null;
+        PlaceholderReplaceEvent replaceEvent = new PlaceholderReplaceEvent(player,placeholder);
+        return getResult(replaceEvent);
     }
 
     /**
