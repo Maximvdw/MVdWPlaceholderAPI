@@ -8,13 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class BaseEventHook implements Listener {
-    private static List<TriggerEvent> hooks = new ArrayList<TriggerEvent>();
+    private static Map<Object, TriggerEvent> hooks = new HashMap<>();
     private Map<EventCondition, String> eventConditions = new HashMap<EventCondition, String>();
     /* Plugin information */
     private String name = "";
@@ -33,8 +31,12 @@ public abstract class BaseEventHook implements Listener {
 
     private YamlStorage storage = null;
 
+    // TODO: Workaround legacy
+    private Object legacyPlugin = null;
+
     public BaseEventHook(Plugin plugin, String shortName, int version) {
         setPlugin(plugin);
+        this.legacyPlugin = plugin.getClass().getProtectionDomain().getCodeSource().getLocation();
         setShortName(shortName);
         this.configVersion = version;
     }
@@ -85,27 +87,27 @@ public abstract class BaseEventHook implements Listener {
     }
 
     public void enableEvent(Player player) {
-        for (TriggerEvent event : getHooks())
+        TriggerEvent event = getHook(legacyPlugin);
+        if (event != null)
             event.enableEvent(player, getConfig().getString("trigger"));
     }
 
     public void disableEvent(Player player) {
-        for (TriggerEvent event : getHooks())
+        TriggerEvent event = getHook(legacyPlugin);
+        if (event != null)
             event.disableEvent(player, getConfig().getString("trigger"));
     }
 
+    @Deprecated
     public static void registerTriggerEvent(TriggerEvent event) {
-        hooks.add(event);
+        // TODO: Workaround for backwards compatibility. Replace with plugin in the future
+        Object plugin = event.getClass().getProtectionDomain().getCodeSource().getLocation();
+        hooks.put(plugin, event);
     }
 
-    public static List<TriggerEvent> getHooks() {
-        return hooks;
+    public static TriggerEvent getHook(Object plugin) {
+        return hooks.get(plugin);
     }
-
-    public void setHooks(List<TriggerEvent> hooks) {
-        this.hooks = hooks;
-    }
-
 
     /**
      * Get config

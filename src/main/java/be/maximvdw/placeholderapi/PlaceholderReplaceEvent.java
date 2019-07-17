@@ -75,8 +75,6 @@ public class PlaceholderReplaceEvent {
         return null;
 	}
 
-
-
 	/**
 	 * Get the online player instance
 	 *

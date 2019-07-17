@@ -97,9 +97,7 @@ public class PlaceholderAPI extends JavaPlugin{
      */
     public static String replacePlaceholders(OfflinePlayer offlinePlayer, String input) {
         if (placeholderPlugins.size() == 0) {
-            SendConsole.warning("There is no MVdW placeholder plugin installed!");
-            SendConsole.warning("Put one of Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames, ...!");
-            return input;
+           return input;
         }
         return placeholderPlugins.get(0).getPlaceholderResult(input,
                 offlinePlayer);
@@ -112,8 +110,6 @@ public class PlaceholderAPI extends JavaPlugin{
      */
     public static int getLoadedPlaceholderCount() {
         if (placeholderPlugins.size() == 0) {
-            SendConsole.warning("There is no MVdW placeholder plugin installed!");
-            SendConsole.warning("Put one of Maximvdw's up-to-date and purchased premium placeholder plugins in the server such as FeatherBoard, AnimatedNames, ...!");
             return 0;
         }
         return placeholderPlugins.get(0).getPlaceHolderCount();
