@@ -57,6 +57,8 @@ public @interface ModuleConstraint {
          * PlaceholderAPIBungee version higher
          */
         PLACEHOLDERAPI_VERSION(2, "PlaceholderAPIBungee version"),
+        SERVER_VERSION_IS_LOWER(1,"Server version is lower"),
+        SERVER_VERSION_IS_HIGHER(1,"Server version is higher"),
         /**
          * Required module
          */
