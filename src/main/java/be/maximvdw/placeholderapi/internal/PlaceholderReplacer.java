@@ -14,6 +14,7 @@ public abstract class PlaceholderReplacer<T> {
     private T defaultOutput = null;
     private String defaultTrueOutput = null;
     private String defaultFalseOutput = null;
+    private boolean relationalPlaceholder = false;
 
     public PlaceholderReplacer(Class<T> type) {
         this.returnType = type;
@@ -135,6 +136,15 @@ public abstract class PlaceholderReplacer<T> {
     public PlaceholderReplacer<T> setDefaultTrueOutput(String defaultTrueOutput) {
         this.defaultTrueOutput = defaultTrueOutput;
         return this;
+    }
+
+    public PlaceholderReplacer<T> isRelationalPlaceholder(boolean relationalPlaceholder) {
+        this.relationalPlaceholder = relationalPlaceholder;
+        return this;
+    }
+
+    public boolean isRelationalPlaceholder() {
+        return this.relationalPlaceholder;
     }
 
     public String getDefaultFalseOutput() {

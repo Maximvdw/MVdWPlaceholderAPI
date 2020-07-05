@@ -1,6 +1,7 @@
 package be.maximvdw.placeholderapi.internal;
 
 import be.maximvdw.placeholderapi.PlaceholderReplaceEvent;
+import be.maximvdw.placeholderapi.internal.ui.SendConsole;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 

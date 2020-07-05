@@ -64,7 +64,7 @@ public class PlaceholderReplaceEvent {
     }
 
     private void setOfflineViewingPlayer(OfflinePlayer offlinePlayer) {
-        this.offlineViewingPlayer = offlineViewingPlayer;
+        this.offlineViewingPlayer = offlinePlayer;
     }
 
     /**
