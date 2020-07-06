@@ -114,6 +114,16 @@ public class PlaceholderAPI extends JavaPlugin{
         }
         return placeholderPlugins.get(0).getPlaceHolderCount();
     }
+    /**
+     * Register a custom placeholder
+     *
+     * @param plugin      Plugin that is registering the placeholder
+     * @param placeholder Placeholder to be registered WITHOUT { }
+     * @return Returns if the placeholder is added or not
+     */
+    public static boolean registerPlaceholder(Plugin plugin, String placeholder, PlaceholderReplacer replacer) {
+        return PlaceholderAPI.registerPlaceholder(plugin, placeholder, replacer);
+    }
 
     /**
      * Register a custom placeholder
