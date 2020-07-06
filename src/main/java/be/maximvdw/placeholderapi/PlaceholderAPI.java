@@ -55,7 +55,7 @@ public class PlaceholderAPI extends JavaPlugin{
 
         SendConsole.info("Sending metrics ...");
         try {
-            new Metrics(this);
+            new Metrics(this, 11182);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -122,7 +122,7 @@ public class PlaceholderAPI extends JavaPlugin{
      * @param placeholder Placeholder to be registered WITHOUT { }
      * @return Returns if the placeholder is added or not
      */
-    public static boolean registerPlaceholder(Plugin plugin, String placeholder, PlaceholderReplacer replacer) {
+    public static boolean registerPlaceholder(Plugin plugin, String placeholder, PlaceholderReplacer replacer, PlaceholderOptions ...options) {
         if (plugin == null)
             return false;
         if (placeholder == null)
@@ -133,18 +133,32 @@ public class PlaceholderAPI extends JavaPlugin{
             return false;
         SendConsole.info(plugin.getName() + " added custom placeholder {"
                 + placeholder.toLowerCase() + "}");
+        be.maximvdw.placeholderapi.internal.PlaceholderReplacer<String> internalReplacer = new be.maximvdw.placeholderapi.internal.PlaceholderReplacer<String>(String.class,
+                replacer) {
+            @Override
+            public String getResult(PlaceholderReplaceEvent event) {
+                PlaceholderReplacer replacer = (PlaceholderReplacer) getArguments()[0];
+                return replacer.onPlaceholderReplace(event);
+            }
+        };
+
+        // Enable placeholder options
+        for (PlaceholderOptions option : options) {
+            switch (option) {
+                case RELATIONAL_PLACEHOLDER:
+                    internalReplacer.isRelationalPlaceholder(true);
+                    break;
+                case ONLINE_PLACEHOLDER:
+                    internalReplacer.setOnline(true);
+                    break;
+            }
+        }
+
         customPlaceholders.addOfflinePlaceholder(
                 placeholder,
                 "Custom MVdWPlaceholderAPI placeholder",
                 false,
-                new be.maximvdw.placeholderapi.internal.PlaceholderReplacer<String>(String.class,
-                        replacer) {
-                    @Override
-                    public String getResult(PlaceholderReplaceEvent event) {
-                        PlaceholderReplacer replacer = (PlaceholderReplacer) getArguments()[0];
-                        return replacer.onPlaceholderReplace(event);
-                    }
-                });
+                internalReplacer);
         for (PlaceholderAddedEvent event : placeholderAddedHandlers) {
             if (event != null)
                 event.onPlaceholderAdded(plugin, placeholder.toLowerCase(), replacer);
