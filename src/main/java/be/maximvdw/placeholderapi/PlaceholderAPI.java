@@ -17,6 +17,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -122,7 +123,7 @@ public class PlaceholderAPI extends JavaPlugin{
      * @return Returns if the placeholder is added or not
      */
     public static boolean registerPlaceholder(Plugin plugin, String placeholder, PlaceholderReplacer replacer) {
-        return PlaceholderAPI.registerPlaceholder(plugin, placeholder, replacer);
+        return PlaceholderAPI.registerPlaceholder(plugin, placeholder, replacer, new ArrayList<PlaceholderOptions>());
     }
 
     /**
@@ -133,6 +134,18 @@ public class PlaceholderAPI extends JavaPlugin{
      * @return Returns if the placeholder is added or not
      */
     public static boolean registerPlaceholder(Plugin plugin, String placeholder, PlaceholderReplacer replacer, PlaceholderOptions ...options) {
+        return PlaceholderAPI.registerPlaceholder(plugin, placeholder, replacer, new ArrayList<PlaceholderOptions>());
+    }
+
+
+    /**
+     * Register a custom placeholder
+     *
+     * @param plugin      Plugin that is registering the placeholder
+     * @param placeholder Placeholder to be registered WITHOUT { }
+     * @return Returns if the placeholder is added or not
+     */
+    private static boolean registerPlaceholder(Plugin plugin, String placeholder, PlaceholderReplacer replacer, Collection<PlaceholderOptions> options) {
         if (plugin == null)
             return false;
         if (placeholder == null)
